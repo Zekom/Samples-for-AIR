@@ -1,27 +1,16 @@
 # Samples-for-AIR Repository 
 
-The _**Samples-for-AIR**_ repository holds Open Sourced samples for Adobe (c) AIR.
+The _**Samples-for-AIR**_ repository holds Open Sourced samples for Blackberry Tablet OS SDK for Adobe AIR.
 
 All APIs shared in this repository are Open Source under the  [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.html)
+
 
 **To contribute code to this repository you must be [signed up as an official contributor](http://blackberry.github.com/howToContribute.html).**
 
 
-## Code Organization
-
-Each Sample added to the repository should be placed in its own directory.  Make sure you name the directory something simple, yet descriptive.  Each Sample must also have a README file at the root of its directory.
-
-## Contributing Samples
-
-TBD
-
-## Governance
-
-TBD
-
 **Repository Committers** 
 
-* [TBD](TBD)
+* [Allan McIntosh](https://github.com/almcintosh)
 
 
 ## Bug Reporting and Feature Requests

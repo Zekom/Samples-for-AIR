@@ -1,0 +1,139 @@
+Samples-for-AIR repository holds Open Sourced samples for Blackberry Tablet OS SDK for Adobe AIR.
+
+========================================================================
+License and Copyright
+
+All APIs and source shared in this repository are Open Sourced under the 
+Apache 2.0 License
+
+
+Copyright (c) 2011 Research In Motion Limited.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+
+========================================================================
+Sample Library
+
+  The sample ActionScript library provides sample APIs written using Blackberry Tablet OS SDK for Adobe AIR. APIs include common utilities and UI elements such as, animated screen transitions, navigation menu, media component, file assisted image cache, and download manager. 
+
+  Navigation menu
+  ----------------------
+  
+  Customizable navigation bar, which offers optional elements, such as, tabbed browsing, search input field, optional buttons, that launch user options, help and return to home is also available.Clicking help icon launches browser to supplied URL.
+  
+  Search field
+  ----------------------
+  
+  Customizable search field allows users to type search text, that filters words that match characters as they type in the field. 
+  
+  Media Player Component
+  ----------------------
+  
+  A music player component, with stop, pause/play and volume media controls, that allows applications to embed a small media player within their application.
+  
+  Screen animations  
+  ----------------------
+  
+  A screen transition handler, that takes source and destination screens and horizontally slides screens in and out of view. 
+
+  Download Manager 
+  ----------------------
+  
+  The download manager is a download utility, that maintains a queue of download tasks. Download tasks consist of source URL, destination file path and relevant meta-data, that can be added, paused, resumed and removed from the persitable download manager queue.
+
+  Client applications must implement the UI to display pause/resume, stop, remove management controls and show status of downloads. 
+
+  An observer/observable patterned interface will notify clients of task state changes, IE: pending, initializing, complete and failed. Active download progress is also provided so clients may update UI with number of kb/MB downloaded. 
+  
+  Download manager will pause or resume downloads  if events of the following nature are detected:
+  
+  - WIFI start and stop
+  - WIFI reception loss/regain.
+  - File system full
+  - HTTP/FILE IO errors
+  
+  
+  Cache
+  ----------------------
+  
+  File system assisted image cache, that takes a URL and returns an image from cache or remote server. 
+
+  Scrolling Marquee field
+  ----------------------
+  
+  Scrolling marquee field, that scrolls text from left to right. Useful, to fit long text strings in small spaces.
+
+  Back button
+  ----------------------
+  
+  UI back button useful to click and return to previous screen.
+
+
+========================================================================
+Sample Application
+
+  For example implementations of the various APIs offered in SampleLibray
+  See Samples-For-Air\SampleApplication\README
+
+
+========================================================================
+Importing project into Flash Builder 4.5
+
+  Flash Builder\File\Import\Flash Builder\Flash Builder Project
+  Select Project Folder Samples-For-Air\SampleLibrary
+  
+  To include SampleLibrary in your project,select your project properties
+  and Flex Build Path\Library Path\Add Project add SampleLibrary
+  
+  NOTE: Samples-For-Air was compiled using Blackberry Tablet OS SDK for Adobe AIR v1.x
+  
+  See: http://us.blackberry.com/developers/tablet/adobe.jsp
+
+
+========================================================================
+Debug/Run with FlashBuilder 4.5
+
+  Some included APIs will *NOT* execute in Desktop Application Flash builder debug profiles. Therefore, Import the Sample Application Project into Flashbuilder, then Debug as Mobile Application, with target platform set to BlackBerry Tablet OS.
+  
+  
+  Select SampleAirApplication and choose Run As\Mobile Application or Debug As and set the following properties:
+  
+  - Project: SampleAirApplication
+  - Application File: src/SampleApplication
+  - Target Platform: BlackBerry Tablet OS
+  - Launch Method: On device.
+  
+  When configuring BlackBerry Table test device profile USB is preferred as WiFi reception can cause the connection to fail.
+  
+  The USB port starts with 169.254.*.* If you are using Tablet OS 1.0.7 and above the ip address will be 169.254.0.1 and you can set the debug host to 169.254.0.2 if you like to make sure it uses the right one. 
+  
+  
+  NOTE: Enable development mode on your BlackBerry Playbook, Playbook Options\Security\Development Mode\Use development mode set to on.
+
+========================================================================
+Customizing package path and directory structure
+
+  To change the package path of SampleLibrary from samples.* to 
+  e. g. com.blart.* See SampleLibrary\build.xml 
+
+
+========================================================================
+Feedback
+
+  Provide feed back using BlackBerry Support Community Forums. Visit the AIR Development Forum to discuss support topics at:
+  
+  http://supportforums.blackberry.com/t5/Tablet-OS-SDK-for-Adobe-AIR/bd-p/tablet
+  
+  Follow issues at GitHub (Samples-for-AIR): 
+  https://github.com/blackberry/Samples-for-AIR/issues 
+  
+  Log Blackberry Tablet OS issues using  http://us.blackberry.com/developers/resources/issuetracker 
+  
+
