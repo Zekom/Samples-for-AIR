@@ -25,8 +25,6 @@ package
     
     import options.Config;
     
-    import qnx.dialog.AlertDialog;
-    import qnx.display.IowWindow;
     import qnx.ui.buttons.LabelButton;
     import qnx.ui.core.Container;
     import qnx.ui.core.Containment;

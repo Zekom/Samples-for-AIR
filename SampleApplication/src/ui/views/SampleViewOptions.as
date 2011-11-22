@@ -116,7 +116,7 @@ package ui.views
             
             if (event.target == _checkboxOptionTwo){
                 
-                switch ( _checkboxOptionOne.selected ) {
+                switch ( _checkboxOptionTwo.selected ) {
                     case true:
                         Config.getConfig().saveValue(Config.OPTION_TWO, "1");
                         break;
@@ -129,7 +129,7 @@ package ui.views
             
             if (event.target == _checkboxOptionThree){
                 
-                switch ( _checkboxOptionOne.selected ) {
+                switch ( _checkboxOptionThree.selected ) {
                     case true:
                         Config.getConfig().saveValue(Config.OPTION_THREE, "1");
                         break;

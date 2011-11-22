@@ -13,7 +13,9 @@
 <!-- See the License for the specific language governing permissions and      -->
 <!-- limitations under the License.                                           -->
 
-<application xmlns="http://ns.adobe.com/air/application/2.7">
+<!--  Depending on the version of Adobe AIR SDK you have installed            -->
+<!--  you may have to edit this value IE: change 3.1 to 2.7                   -->
+<application xmlns="http://ns.adobe.com/air/application/3.1">
 
 <!-- Adobe AIR Application Descriptor File Template.
 

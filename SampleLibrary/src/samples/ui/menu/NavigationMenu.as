@@ -39,7 +39,7 @@ package samples.ui.menu
     import qnx.ui.events.ListEvent;
     import qnx.ui.text.Label;
     import qnx.ui.text.ReturnKeyType;
-    import qnx.ui.text.TextInputIMF;
+    import qnx.ui.text.TextInput;
     import qnx.ui.text.TextInputIconMode;
     
     public class NavigationMenu extends UIComponent
@@ -50,7 +50,7 @@ package samples.ui.menu
         private static var Search:Class;
         
         private var _currentScroll:Number = 0;
-        public var _search:TextInputIMF;
+        public var _search:TextInput;
         private var _searchHistory:SuggestionList;
         private var _title:String;
         private var _titleLabel:Label;
@@ -98,7 +98,7 @@ package samples.ui.menu
             
             if (hasSearchField)
             {
-                _search = new TextInputIMF();
+                _search = new TextInput();
                 _search.returnKeyType = ReturnKeyType.SEARCH;
                 _search.addEventListener(KeyboardEvent.KEY_DOWN, handleSearchEnter, false, 0, true);
                 _search.addEventListener(FocusEvent.FOCUS_IN, showSearchHistory, false, 0, true);

@@ -134,23 +134,6 @@ package samples.ui.components
             
             handlePlayerStopped();
             
-            //set audio boost state and also handle audio boost state change event
-            _volume.audioBoostEnabled = AudioManager.audioManager.audioBoostEnabled;
-            _volume.maximum = AudioManager.audioManager.getMaxOutputLevel();
-            AudioManager.audioManager.addEventListener(AudioManagerEvent.HP_BOOST_CHANGED, function(e:AudioManagerEvent):void {
-                _volume.audioBoostEnabled = AudioManager.audioManager.audioBoostEnabled;
-                _volume.maximum = AudioManager.audioManager.getMaxOutputLevel();
-            });
-            
-            // disable volume slider for music app when HDMI or A2DP is the connected output because volume slider
-            // will not be functional in these two cases. However, we should revisit this logic for A2DP when AVRCP 1.4 is
-            // supported since the volume slider can be used for control BT volume using the protocol
-            var audioManager:AudioManager = AudioManager.audioManager;
-            _volume.active = audioManager.connectedOutput != AudioOutput.HDMI && audioManager.connectedOutput != AudioOutput.A2DP;
-            
-            audioManager.addEventListener(AudioManagerEvent.CONNECTED_OUTPUT_CHANGED, function(event:AudioManagerEvent):void {
-                _volume.active = audioManager.connectedOutput != AudioOutput.HDMI && audioManager.connectedOutput != AudioOutput.A2DP;
-            });
         }
         
         

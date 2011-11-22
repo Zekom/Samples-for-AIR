@@ -12,7 +12,6 @@
 <!-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. -->
 <!-- See the License for the specific language governing permissions and      -->
 <!-- limitations under the License.                                           -->
-
 <actionScriptProperties analytics="false" mainApplicationPath="SampleAirLibrary.as" projectUUID="5d5bc352-98dd-4ca7-9fac-94e827ca2fb0" version="10">
   <compiler additionalCompilerArguments="-locale en_US" autoRSLOrdering="true" copyDependentFiles="false" fteInMXComponents="false" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="true" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
     <compilerSourcePath/>
@@ -28,9 +27,10 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="SampleForAirLibrary.as"/>
+    <application path="SampleAirLibrary.as"/>
   </applications>
   <modules/>
   <buildCSSFiles/>
   <flashCatalyst validateFlashCatalystCompatibility="false"/>
 </actionScriptProperties>
+
