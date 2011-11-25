@@ -17,71 +17,59 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
+========================================================================
+
+Additional info is available at Open BB News, see the article Samples for AIR: An open source project for the BlackBerry Playbook 
+http://openbbnews.wordpress.com/2011/11/19/samples-for-air/
 
 ========================================================================
 Sample Application
 
-  The included sample application is a fully functioning BlackBerry Playbook mobile application, that demonstrates implementations of the various APIs and components provided by Samples-For-Air\SampleLibrary for Blackberry Tablet OS SDK for Adobe AIR, including the following:
-  
-  - Navigation menu 
-  - Screen animations  
-  - Swipe down menu, that contains options, help and browsing history.
-  - Search field - Entering text launches search results screen.
-  - Scrolling Marquee field
-  - Media Playbar 
-  - Download Manager 
-  - User options - demonstrates how to save and retrieve user options.
-  - Help - launch browser directed to URL
-  - Browsing history (see swipe down menu)
-  - Back Button (see sample search results screen)
+The sample application is a fully functioning BlackBerry Playbook mobile application that can be deployed directly onto the Playbook. It demonstrates the use of various tablet APIs and components provided by Sample Library for Blackberry Tablet OS SDK for Adobe AIR, including the following:
 
-
-See also Samples-For-Air\SampleLibrary\README
+- Navigation menu
+- Screen animations
+- Swipe down menu with options, help and browsing history
+- Search field (entering text launches search results screen)
+- Scrolling marquee field
+- Media playback
+- Download Manager
+- An Options screen that demonstrates how to save, retrieve and display user options
+- Help button that launches browser directed to URL
+- Browsing history (see swipe down menu)
+- Back button (see sample search results screen)
 
 ========================================================================
-Importing project into Flash Builder 4.5
+Sample Library
 
-  Flash Builder\File\Import\Flash Builder\Flash Builder Project
-  Select Project Folder Samples-For-Air\SampleLibrary
-  
-  Flash Builder\File\Import\Flash Builder\Flash Builder Project
-  Select Project Folder Samples-For-Air\SampleApplication
-  
-  NOTE: Projects were compiled using Blackberry Tablet OS SDK for Adobe AIR v1.x
-  
-  See: http://us.blackberry.com/developers/tablet/adobe.jsp
+See Samples-For-Air\SampleLibrary\README
 
 
 ========================================================================
-Debug/Run with FlashBuilder 4.5
+Building Samples for AIR open source project and deploying to the BlackBerry Playbook
 
-  Some included APIs will *NOT* execute in Desktop Application Flash builder debug profiles. Therefore, Import the Sample Application Project into Flashbuilder, then Debug as Mobile Application, with target platform set to BlackBerry Tablet OS.
-  
-  Select SampleAirApplication and choose Run As\Mobile Application (or Debug As) and set the following properties:
-  
-  - Project: SampleAirApplication
-  - Application File: src/SampleApplication
-  - Target Platform: BlackBerry Tablet OS
-  - Launch Method: On device.
-  
-  When configuring BlackBerry Table test device profile USB is preferred as WiFi reception can cause the connection to fail.
-  
-  The USB port starts with 169.254.*.* If you are using Tablet OS 1.0.7 and above the ip address will be 169.254.0.1 and you can set the debug host to 169.254.0.2 if you like to make sure it uses the right one. 
-  
-  
-  NOTE: Enable development mode on your BlackBerry Playbook, Playbook Options\Security\Development Mode\Use development mode set to on.
+For help with: 
+
+* Downloading Samples-for-AIR source code,
+* Importing project into Flash Builder,
+* Deploying Sample AIR project to the BlackBerry Playbook and
+* Customizing the Sample Library package path and directory structure
+
+See the article Building Samples for AIR open source project and deploying to the BlackBerry Playbook, available at Open BB News: 
+http://openbbnews.wordpress.com/2011/11/21/samples-for-air-howto/
+
 
 
 ========================================================================
 Feedback
 
-  Provide feed back using BlackBerry Support Community Forums. Visit the AIR Development Forum to discuss support topics at:
-  
-  http://supportforums.blackberry.com/t5/Tablet-OS-SDK-for-Adobe-AIR/bd-p/tablet
-  
-  Follow issues at GitHub (Samples-for-AIR): 
-  https://github.com/blackberry/Samples-for-AIR/issues 
-  
-  Log Blackberry Tablet OS issues using  http://us.blackberry.com/developers/resources/issuetracker 
-  
+Provide feed back using BlackBerry Support Community Forums. Visit the AIR Development Forum to discuss support topics at:
+
+http://supportforums.blackberry.com/t5/Tablet-OS-SDK-for-Adobe-AIR/bd-p/tablet
+
+Follow issues at GitHub (Samples-for-AIR): 
+https://github.com/blackberry/Samples-for-AIR/issues 
+
+Log Blackberry Tablet OS issues using  http://us.blackberry.com/developers/resources/issuetracker 
+
 

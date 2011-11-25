@@ -19,121 +19,87 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 
 ========================================================================
+
+Additional info is available at Open BB News, see the article Samples for AIR: An open source project for the BlackBerry Playbook 
+http://openbbnews.wordpress.com/2011/11/19/samples-for-air/
+
+========================================================================
 Sample Library
 
-  The sample ActionScript library provides sample APIs written using Blackberry Tablet OS SDK for Adobe AIR. APIs include common utilities and UI elements such as, animated screen transitions, navigation menu, media component, file assisted image cache, and download manager. 
+The Samples for AIR open source project, offers sample APIs written using Blackberry Tablet OS SDK for Adobe AIR. APIs include common utilities and UI elements such as animated screen transitions, navigation menu, media component, search field, and download manager. A fully functional example application that demonstrates how to use the provided APIs is also provided.
 
-  Navigation menu
-  ----------------------
-  
-  Customizable navigation bar, which offers optional elements, such as, tabbed browsing, search input field, optional buttons, that launch user options, help and return to home is also available.Clicking help icon launches browser to supplied URL.
-  
-  Search field
-  ----------------------
-  
-  Customizable search field allows users to type search text, that filters words that match characters as they type in the field. 
-  
-  Media Player Component
-  ----------------------
-  
-  A music player component, with stop, pause/play and volume media controls, that allows applications to embed a small media player within their application.
-  
-  Screen animations  
-  ----------------------
-  
-  A screen transition handler, that takes source and destination screens and horizontally slides screens in and out of view. 
+Navigation menu
+-------------------
+A customizable navigation bar offers optional elements, such as tabbed browsing and search input field. Buttons that launch user options, help and return to home are also available. Clicking the help icon launches the browser to supplied URL.
 
-  Download Manager 
-  ----------------------
-  
-  The download manager is a download utility, that maintains a queue of download tasks. Download tasks consist of source URL, destination file path and relevant meta-data, that can be added, paused, resumed and removed from the persitable download manager queue.
+Search field
+-------------------
+A customizable search field allows users to type search text that filters words that match characters as they type.
 
-  Client applications must implement the UI to display pause/resume, stop, remove management controls and show status of downloads. 
+Download Manager
+-------------------
+The download manager is a utility that maintains a queue of tasks consisting of the source URL, destination file path and relevant meta-data. Tasks can be added, paused, resumed and removed from the persisted download manager queue. The UI must implement the controls to display pause/resume, stop, remove management controls and show status of downloads.
 
-  An observer/observable patterned interface will notify clients of task state changes, IE: pending, initializing, complete and failed. Active download progress is also provided so clients may update UI with number of kb/MB downloaded. 
-  
-  Download manager will pause or resume downloads  if events of the following nature are detected:
-  
-  - WIFI start and stop
-  - WIFI reception loss/regain.
-  - File system full
-  - HTTP/FILE IO errors
-  
-  
-  Cache
-  ----------------------
-  
-  File system assisted image cache, that takes a URL and returns an image from cache or remote server. 
+Clients are notified of the following state changes: pending, initializing, complete and failed. Active download progress is provided so clients may update the UI with the number of kb/MB downloaded.
 
-  Scrolling Marquee field
-  ----------------------
-  
-  Scrolling marquee field, that scrolls text from left to right. Useful, to fit long text strings in small spaces.
+The download manager will pause or resume downloads if events of the following nature are detected:
 
-  Back button
-  ----------------------
-  
-  UI back button useful to click and return to previous screen.
+    WIFI reception loss and regain,
+    File system space  full and available, or
+    HTTP and FILE IO errors.
+
+Media Playbar
+-------------------
+A music player example shows how to invoke stop, play/pause and use volume media controls.
+
+Screen animations
+-------------------
+A screen transition utility takes source and destination screens and horizontally slides screens in and out of view.
+
+Cache
+-------------------
+Written for applications that download large quantities of images and keep them for extended periods of time, the file system assisted image cache API takes a URL and returns an image from the cache or remote server.
+
+Scrolling Marquee field
+-------------------
+A scrolling marquee field scrolls text from left to right. This is useful to fit long text strings in small spaces.
+
+Back button
+-------------------
+The UI back button has a customized skin.
 
 
 ========================================================================
 Sample Application
 
-  For example implementations of the various APIs offered in SampleLibray
-  See Samples-For-Air\SampleApplication\README
+For example implementations of the various APIs offered in SampleLibray
+See Samples-For-Air\SampleApplication\README
 
 
 ========================================================================
-Importing project into Flash Builder 4.5
+Building Samples for AIR open source project and deploying to the BlackBerry Playbook
 
-  Flash Builder\File\Import\Flash Builder\Flash Builder Project
-  Select Project Folder Samples-For-Air\SampleLibrary
-  
-  To include SampleLibrary in your project,select your project properties
-  and Flex Build Path\Library Path\Add Project add SampleLibrary
-  
-  NOTE: Samples-For-Air was compiled using Blackberry Tablet OS SDK for Adobe AIR v1.x
-  
-  See: http://us.blackberry.com/developers/tablet/adobe.jsp
+For help with: 
 
+* Downloading Samples-for-AIR source code,
+* Importing project into Flash Builder,
+* Deploying Sample AIR project to the BlackBerry Playbook and
+* Customizing the Sample Library package path and directory structure
 
-========================================================================
-Debug/Run with FlashBuilder 4.5
-
-  Some included APIs will *NOT* execute in Desktop Application Flash builder debug profiles. Therefore, Import the Sample Application Project into Flashbuilder, then Debug as Mobile Application, with target platform set to BlackBerry Tablet OS.
-  
-  
-  Select SampleAirApplication and choose Run As\Mobile Application or Debug As and set the following properties:
-  
-  - Project: SampleAirApplication
-  - Application File: src/SampleApplication
-  - Target Platform: BlackBerry Tablet OS
-  - Launch Method: On device.
-  
-  When configuring BlackBerry Table test device profile USB is preferred as WiFi reception can cause the connection to fail.
-  
-  The USB port starts with 169.254.*.* If you are using Tablet OS 1.0.7 and above the ip address will be 169.254.0.1 and you can set the debug host to 169.254.0.2 if you like to make sure it uses the right one. 
-  
-  
-  NOTE: Enable development mode on your BlackBerry Playbook, Playbook Options\Security\Development Mode\Use development mode set to on.
-
-========================================================================
-Customizing package path and directory structure
-
-  To change the package path of SampleLibrary from samples.* to 
-  e. g. com.blart.* See SampleLibrary\build.xml 
+See the article Building Samples for AIR open source project and deploying to the BlackBerry Playbook, available at Open BB News: 
+http://openbbnews.wordpress.com/2011/11/21/samples-for-air-howto/
 
 
 ========================================================================
 Feedback
 
-  Provide feed back using BlackBerry Support Community Forums. Visit the AIR Development Forum to discuss support topics at:
-  
-  http://supportforums.blackberry.com/t5/Tablet-OS-SDK-for-Adobe-AIR/bd-p/tablet
-  
-  Follow issues at GitHub (Samples-for-AIR): 
-  https://github.com/blackberry/Samples-for-AIR/issues 
-  
-  Log Blackberry Tablet OS issues using  http://us.blackberry.com/developers/resources/issuetracker 
-  
+Provide feed back using BlackBerry Support Community Forums. Visit the AIR Development Forum to discuss support topics at:
+
+http://supportforums.blackberry.com/t5/Tablet-OS-SDK-for-Adobe-AIR/bd-p/tablet
+
+Follow issues at GitHub (Samples-for-AIR): 
+https://github.com/blackberry/Samples-for-AIR/issues 
+
+Log Blackberry Tablet OS issues using  http://us.blackberry.com/developers/resources/issuetracker 
+
 
