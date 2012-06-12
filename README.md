@@ -14,6 +14,7 @@ All APIs shared in this repository are Open Source under the  [Apache 2.0 Licens
 **Repository Committers** 
 
 * [Allan McIntosh](https://github.com/almcintosh)
+* [Julian Dolce](https://github.com/jdolce)
 
 ## Building Samples for AIR open source project and deploying to the BlackBerry Playbook
 
