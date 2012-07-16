@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>weatherguesser</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>com.powerflasher.fdt.core.FlashBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>com.powerflasher.fdt.core.FlashNature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>.DS_Store</name>
+			<type>1</type>
+			<location>/Users/juliandolce/Projects/qnx/airsdk/internal-airsdk/trunk/sdks/3.x/frameworks/libs/qnx/ane/.DS_Store</location>
+		</link>
+		<link>
+			<name>QNXSkins.ane</name>
+			<type>1</type>
+			<location>/Developer/SDKs/blackberry-tablet-sdk-3.0.0/frameworks/libs/qnx/ane/QNXSkins.ane</location>
+		</link>
+		<link>
+			<name>qnxui.swc</name>
+			<type>1</type>
+			<location>/Developer/SDKs/blackberry-tablet-sdk-3.0.0/frameworks/libs/qnx/qnxui.swc</location>
+		</link>
+	</linkedResources>
+</projectDescription>
