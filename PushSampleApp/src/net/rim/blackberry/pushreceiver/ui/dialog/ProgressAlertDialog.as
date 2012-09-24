@@ -16,10 +16,6 @@
 
 package net.rim.blackberry.pushreceiver.ui.dialog
 {
-	import flash.events.Event;
-	
-	import net.rim.blackberry.pushreceiver.ui.ListContainer;
-	
 	import qnx.fuse.ui.core.Container;
 	import qnx.fuse.ui.core.SizeOptions;
 	import qnx.fuse.ui.dialog.DialogBase;

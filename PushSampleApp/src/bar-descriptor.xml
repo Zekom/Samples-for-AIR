@@ -26,9 +26,10 @@
         <image>PushReceiver-icon.png</image>
     </icon> 
 
-    <splashscreen>:PushReceiver-splash.png</splashscreen>
+    <splashScreens><image>PushReceiver-splash.png</image></splashScreens>
 
     <permission>read_device_identifying_information</permission>
+    <permission>post_notification</permission>
     <action system="true">run_air_native</action>
     
     <!-- Need to put an invoke entry here for push -->

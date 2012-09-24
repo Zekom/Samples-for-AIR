@@ -61,14 +61,12 @@ package net.rim.blackberry.pushreceiver.ui.renderer
 			background.graphics.endFill();
 		}
 		
-		/*
 		override public function updateFontSettings():void
 		{
 			super.updateFontSettings();
 			
 			dateHeading.updateFontSettings();
 		}
-		*/
 		
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
 		{						

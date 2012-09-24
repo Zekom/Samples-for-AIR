@@ -23,6 +23,7 @@ package net.rim.blackberry.pushreceiver.service
 	import net.rim.blackberry.events.CreateChannelSuccessEvent;
 	import net.rim.blackberry.events.PushServiceErrorEvent;
 	import net.rim.blackberry.events.PushServiceEvent;
+	import net.rim.blackberry.events.PushTransportReadyEvent;
 	import net.rim.blackberry.push.InitializationError;
 	import net.rim.blackberry.push.PushPayload;
 	import net.rim.blackberry.push.PushService;
@@ -100,8 +101,7 @@ package net.rim.blackberry.pushreceiver.service
 					} else {
 						pushService = new PushService(INVOKE_TARGET_ID, config.providerApplicationId);
 					}
-				}
-				catch (error:ArgumentError) {
+				} catch (error:ArgumentError) {
 					// Note: As a best practice in your application, you should handle this error gracefully.
 					trace("ArgumentError while creating push service: " + error.message + "\r" + error.getStackTrace());
 					throw error;
@@ -273,6 +273,7 @@ package net.rim.blackberry.pushreceiver.service
 			getPushService().addEventListener(PushServiceErrorEvent.DESTROY_CHANNEL_ERROR, errorEventHandler);
 			getPushService().addEventListener(PushServiceEvent.DESTROY_CHANNEL_SUCCESS, successEventHandler);
 			getPushService().addEventListener(PushServiceEvent.SIM_CHANGE, successEventHandler);
+			getPushService().addEventListener(PushTransportReadyEvent.PUSH_TRANSPORT_READY, pushTransportReadyHandler);
 			getPushService().addEventListener(PushServiceErrorEvent.REGISTER_TO_LAUNCH_ERROR, errorEventHandler);
 			getPushService().addEventListener(PushServiceEvent.REGISTER_TO_LAUNCH_SUCCESS, successEventHandler);
 			getPushService().addEventListener(PushServiceErrorEvent.UNREGISTER_FROM_LAUNCH_ERROR, errorEventHandler);
@@ -311,6 +312,13 @@ package net.rim.blackberry.pushreceiver.service
 		private function createChannelSuccessHandler(e:CreateChannelSuccessEvent):void
 		{		
 			var event:CreateChannelSuccessEvent = new CreateChannelSuccessEvent(e.type, e.token);
+			
+			dispatchEvent(event);
+		}
+		
+		private function pushTransportReadyHandler(e:PushTransportReadyEvent):void
+		{
+		    var event:PushTransportReadyEvent = new PushTransportReadyEvent(e.type, e.lastFailedOperation);
 			
 			dispatchEvent(event);
 		}

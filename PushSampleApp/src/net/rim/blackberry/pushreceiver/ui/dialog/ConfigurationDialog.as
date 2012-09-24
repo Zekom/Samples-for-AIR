@@ -30,6 +30,7 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 	import qnx.fuse.ui.layouts.Align;
 	import qnx.fuse.ui.layouts.gridLayout.GridLayout;
 	import qnx.fuse.ui.text.TextInput;
+	import qnx.fuse.ui.listClasses.ScrollDirection;
 	
 	/**
 	 * Dialog for setting configuration settings.
@@ -215,6 +216,7 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 			piUrlField.prompt = this.piUrlLabelStr;
 			launchAppOnPushField.label = this.launchAppOnPushLabelStr;
 			
+			container.scrollDirection = ScrollDirection.VERTICAL;
 			container.addChild(radioButtonContainer);
 			container.addChild(this.useSDKAsPIField);
 			container.addChild(this.appIdField);
