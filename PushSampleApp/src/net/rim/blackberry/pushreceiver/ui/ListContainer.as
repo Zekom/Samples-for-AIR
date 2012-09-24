@@ -16,11 +16,15 @@
 
 package net.rim.blackberry.pushreceiver.ui
 {
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
+	
 	import net.rim.blackberry.pushreceiver.ui.renderer.DateHeadingRenderer;
 	import net.rim.blackberry.pushreceiver.ui.renderer.PushRenderer;
 	import net.rim.blackberry.pushreceiver.vo.Push;
 	
 	import qnx.fuse.ui.core.Container;
+	import qnx.fuse.ui.events.ListEvent;
 	import qnx.fuse.ui.listClasses.ListSelectionMode;
 	import qnx.fuse.ui.listClasses.ScrollDirection;
 	import qnx.fuse.ui.listClasses.SectionList;
@@ -39,6 +43,7 @@ package net.rim.blackberry.pushreceiver.ui
 		
 		private var list:SectionList;
 		private var sectionDataProvider:SectionDataProvider;
+		private var selectedPushItem:PushRenderer;
 		
 		public function ListContainer()
 		{			
@@ -55,6 +60,7 @@ package net.rim.blackberry.pushreceiver.ui
 			list.cellRenderer = PushRenderer;
 			list.selectionMode = ListSelectionMode.SINGLE;
 			list.allowDeselect = false;
+			list.addEventListener(ListEvent.ITEM_CLICKED, listItemClicked);
 			
 			addChild(list);
 		}
@@ -80,7 +86,6 @@ package net.rim.blackberry.pushreceiver.ui
 			list.rowHeight = FontSettings.fontSettings.contentSize + PUSH_PADDING;
 		}
 		
-		/*
 		override public function updateFontSettings():void
 		{
 			super.updateFontSettings();
@@ -88,7 +93,6 @@ package net.rim.blackberry.pushreceiver.ui
 			list.headerHeight = FontSettings.fontSettings.contentSize + DATE_HEADING_PADDING;
 			list.rowHeight = FontSettings.fontSettings.contentSize + PUSH_PADDING;
 		}
-		*/
 		
 		/**
 		 * Selects an item in the push list. 
@@ -194,6 +198,36 @@ package net.rim.blackberry.pushreceiver.ui
 		public function removeAll():void
 		{
 			sectionDataProvider.removeAll();
+		}
+		
+		/**
+		 * The actions to take when an item is clicked in the push list.
+		 * No actions will be taken on a date heading.
+		 * @param e the list event
+		 */
+		private function listItemClicked(e:ListEvent):void
+		{
+		    if (e.cell is PushRenderer) {
+				selectedPushItem = e.cell as PushRenderer;
+				
+				// We start a timer so the MouseEvent.CLICK event for the delete 
+				// icon has time to execute before checking if it was clicked or not
+				var timer:Timer = new Timer(1, 1);
+				timer.addEventListener(TimerEvent.TIMER_COMPLETE, timerComplete);
+				timer.start();
+			}
+		}
+		
+		/**
+		 * The actions to take after a timer event.  In this case,
+		 * we want to check if the delete icon was clicked and, if not, then
+		 * the user wishes to simply open and view the contents of the push.
+		 * @param e the timer event
+		 */
+		private function timerComplete(e:TimerEvent):void {
+			if (!selectedPushItem.wasDeleteIconClicked) {
+				selectedPushItem.openPush();
+			} 
 		}
 	}
 }

@@ -18,10 +18,11 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 {
 	import flash.events.Event;
 	import flash.geom.Rectangle;
-	import flash.system.Capabilities;
 	
+	import qnx.events.WebViewEvent;
 	import qnx.fuse.ui.core.Container;
 	import qnx.fuse.ui.dialog.AlertDialog;
+	import qnx.fuse.ui.managers.WindowManager;
 	import qnx.media.QNXStageWebView;
 	
 	/**
@@ -30,6 +31,7 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 	public class HtmlContentDialog extends AlertDialog
 	{		
 		private var webview:QNXStageWebView;
+		private var isWebviewCreated:Boolean = false;
 		private var html:String;
 		
 		public function HtmlContentDialog()
@@ -53,25 +55,40 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 		{
 			dialogContainer.layout.layoutChanged();
 			
-			var maximumHeight:int = Capabilities.screenResolutionY - 2 * 	minimumScreenMargin;
-			setActualSize(startWidth - 48, maximumHeight);
-			dialogContainer.setActualSize(startWidth - 48, maximumHeight);
+			var wm:WindowManager = WindowManager.windowManager;
+			var maximumWidth:int = wm.screenWidth;
+			var maximumHeight:int = wm.screenHeight;
+			
+			setActualSize(maximumWidth - 48, maximumHeight - 48);
+			dialogContainer.setActualSize(maximumWidth - 48, maximumHeight - 48);
 		}
 		
 		override public function show():void
 		{			
 			super.show();
 			
+			content.height = height - header.height - footer.height;
+			footer.y = height - footer.height;
+			
 			webview = new QNXStageWebView("htmlpushdisplay");
+			webview.addEventListener(WebViewEvent.CREATED, webviewCreated);
 			webview.stage = stage;
-			webview.viewPort = new Rectangle(content.x, content.y, content.width, content.height); 
 			webview.loadString(html);
 			webview.zOrder = 5;
 		}
 		
+		private function webviewCreated(e:WebViewEvent):void
+		{
+			isWebviewCreated = true;			
+			
+			webview.viewPort = new Rectangle(0, header.height, width, content.height); 
+		}
+		
 		private function webviewDispose(e:Event):void
 		{
-			webview.dispose();
+			if (isWebviewCreated) {
+			    webview.dispose();
+			}
 		}
 	}
 }

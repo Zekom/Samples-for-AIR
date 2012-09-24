@@ -21,10 +21,10 @@ package net.rim.blackberry.pushreceiver.ui
 	import net.rim.blackberry.events.CreateChannelSuccessEvent;
 	import net.rim.blackberry.events.PushServiceErrorEvent;
 	import net.rim.blackberry.events.PushServiceEvent;
-	import net.rim.blackberry.pushreceiver.ui.dialog.ConfigurationDialog;
-	import net.rim.blackberry.pushreceiver.ui.dialog.ProgressAlertDialog;
 	import net.rim.blackberry.pushreceiver.events.*;
 	import net.rim.blackberry.pushreceiver.service.*;
+	import net.rim.blackberry.pushreceiver.ui.dialog.ConfigurationDialog;
+	import net.rim.blackberry.pushreceiver.ui.dialog.ProgressAlertDialog;
 	import net.rim.blackberry.pushreceiver.vo.Configuration;
 	import net.rim.blackberry.pushreceiver.vo.User;
 	
@@ -171,8 +171,8 @@ package net.rim.blackberry.pushreceiver.ui
 			var deleteAllDialog:AlertDialog = new AlertDialog();
 			deleteAllDialog.title = "Delete All";
 			deleteAllDialog.message = "Delete All Items?";
-			deleteAllDialog.addButton("Delete");
 			deleteAllDialog.addButton("Cancel");
+			deleteAllDialog.addButton("Delete");
 			deleteAllDialog.addEventListener(Event.SELECT, deleteAllDialogClicked);
 			deleteAllDialog.show();
 		}
@@ -183,7 +183,7 @@ package net.rim.blackberry.pushreceiver.ui
 		 */
 		private function deleteAllDialogClicked(event:Event):void
 		{				
-			if (event.target.selectedIndex == 0) {
+			if (event.target.selectedIndex == 1) {
 				// The "Delete" button was clicked
 				pushNotificationService.deleteAllPushes();
 				
@@ -201,8 +201,8 @@ package net.rim.blackberry.pushreceiver.ui
 		{
 			var dialog:ConfigurationDialog = new ConfigurationDialog();
 			dialog.title = "Configuration";
-			dialog.addButton("Save");
 			dialog.addButton("Cancel");
+			dialog.addButton("Save");
 			dialog.addEventListener(ConfigurationDialogEvent.BUTTON_CLICKED, configDialogClicked);
 			
 			return dialog;
@@ -218,8 +218,9 @@ package net.rim.blackberry.pushreceiver.ui
 			dialog.title = "Register";
 			dialog.usernamePrompt = "Username"; 
 			dialog.passwordPrompt = "Password";
-			dialog.addButton("Register");
+			dialog.showPasswordLabel = "Show Password";
 			dialog.addButton("Cancel");
+			dialog.addButton("Register");
 			dialog.addEventListener(Event.SELECT, registerDialogClicked);	
 			
 			return dialog;
@@ -235,8 +236,9 @@ package net.rim.blackberry.pushreceiver.ui
 			dialog.title = "Unregister";
 			dialog.usernamePrompt = "Username"; 
 			dialog.passwordPrompt = "Password";
-			dialog.addButton("Unregister");
+			dialog.showPasswordLabel = "Show Password";
 			dialog.addButton("Cancel");
+			dialog.addButton("Unregister");
 			dialog.addEventListener(Event.SELECT, unregisterDialogClicked);	
 			
 			return dialog;
@@ -375,7 +377,7 @@ package net.rim.blackberry.pushreceiver.ui
 		 */
 		private function configDialogClicked(event:ConfigurationDialogEvent):void
 		{					
-			if (event.target.selectedIndex == 0) {
+			if (event.target.selectedIndex == 1) {
 				// The "Save" button was clicked
 				
 				// Trim the entered values
@@ -604,7 +606,7 @@ package net.rim.blackberry.pushreceiver.ui
 		 */
 		private function registerDialogClicked(event:Event):void
 		{						
-			if (event.target.selectedIndex == 0) {
+			if (event.target.selectedIndex == 1) {
 				// The "Register" button was clicked				
 				// Trim the entered values
 				var username:String = trim(event.target.username);
@@ -616,12 +618,12 @@ package net.rim.blackberry.pushreceiver.ui
 				if (!username) {
 					messageStr = "Error: No username was specified.";
 					registerDialog.password = password;
-					registerDialog.usernameError = messageStr;
+					registerDialog.errorText = messageStr;
 					registerDialog.show();
 				} else if (!password) {
 					messageStr = "Error: No password was specified.";
 					registerDialog.username = username;
-					registerDialog.passwordError = messageStr;
+					registerDialog.errorText = messageStr;
 					registerDialog.show();
 				} else {					
 					registerUser = new User();
@@ -670,8 +672,15 @@ package net.rim.blackberry.pushreceiver.ui
 		 */
 		private function createChannelError(e:PushServiceErrorEvent):void
 		{
-			// Typically in your own application you wouldn't want to display this error to your users
-			var message:String = "Create channel failed with error code: " + e.errorID + ".";
+			var message:String;
+			if (e.errorID == PushServiceErrorEvent.PUSH_TRANSPORT_UNAVAILABLE) {
+				message = "Create channel failed as the push transport is unavailable. " +
+					"Verify your mobile network and/or Wi-Fi are turned on. " +
+					"If they are on, you will be notified when the push transport is available again.";
+			} else {
+				// Typically in your own application you wouldn't want to display this error to your users
+				message = "Create channel failed with error code: " + e.errorID + ".";	
+			}
 			
 			dialogError("Register", message, e.text);
 		}
@@ -703,7 +712,7 @@ package net.rim.blackberry.pushreceiver.ui
 		 */
 		private function unregisterDialogClicked(event:Event):void
 		{						
-			if (event.target.selectedIndex == 0) {
+			if (event.target.selectedIndex == 1) {
 				// The "Unregister" button was clicked
 				// Trim the entered values
 				var username:String = trim(event.target.username);
@@ -715,12 +724,12 @@ package net.rim.blackberry.pushreceiver.ui
 				if (!username) {
 					messageStr = "Error: No username was specified.";
 					unregisterDialog.password = password;
-					unregisterDialog.usernameError = messageStr;
+					unregisterDialog.errorText = messageStr;
 					unregisterDialog.show();
 				} else if (!password) {
 					messageStr = "Error: No password was specified.";
 					unregisterDialog.username = username;
-					unregisterDialog.passwordError = messageStr;
+					unregisterDialog.errorText = messageStr;
 					unregisterDialog.show();
 				} else {
 					unregisterUser = new User();
@@ -765,8 +774,15 @@ package net.rim.blackberry.pushreceiver.ui
 		 */
 		private function destroyChannelError(e:PushServiceErrorEvent):void
 		{			
-			// Typically in your own application you wouldn't want to display this error to your users
-			var message:String = "Destroy channel failed with error code: " + e.errorID + ".";
+			var message:String;
+			if (e.errorID == PushServiceErrorEvent.PUSH_TRANSPORT_UNAVAILABLE) {
+				message = "Destroy channel failed as the push transport is unavailable. " +
+					"Verify your mobile network and/or Wi-Fi are turned on. " +
+					"If they are on, you will be notified when the push transport is available again.";
+			} else {
+				// Typically in your own application you wouldn't want to display this error to your users
+				message = "Destroy channel failed with error code: " + e.errorID + ".";
+			}
 			
 			dialogError("Unregister", message, e.text);
 		}

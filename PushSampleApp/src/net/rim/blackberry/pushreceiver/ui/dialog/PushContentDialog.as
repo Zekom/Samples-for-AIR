@@ -21,7 +21,6 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 	import flash.display.Loader;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
-	import flash.system.Capabilities;
 	import flash.utils.ByteArray;
 	
 	import net.rim.blackberry.pushreceiver.vo.Push;
@@ -123,15 +122,6 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 			contentContainer.layout = contentLayout;
 			
 			container.addChild(contentContainer);
-		}
-		
-		override protected function updateSize():void
-		{
-			dialogContainer.layout.layoutChanged();
-			
-			var maximumHeight:int = Capabilities.screenResolutionY - 2 * 	minimumScreenMargin;
-			setActualSize(startWidth - 48, maximumHeight);
-			dialogContainer.setActualSize(startWidth - 48, maximumHeight);
 		}
 	}
 }

@@ -16,6 +16,7 @@
 
 package
 {	
+	import flash.desktop.NativeApplication;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
@@ -23,6 +24,7 @@ package
 	
 	import net.rim.blackberry.events.PushServiceErrorEvent;
 	import net.rim.blackberry.events.PushServiceEvent;
+	import net.rim.blackberry.events.PushTransportReadyEvent;
 	import net.rim.blackberry.push.PushPayload;
 	import net.rim.blackberry.pushreceiver.events.*;
 	import net.rim.blackberry.pushreceiver.service.*;
@@ -49,6 +51,8 @@ package
 	import qnx.invoke.InvokeAction;
 	import qnx.invoke.InvokeManager;
 	import qnx.invoke.InvokeRequest;
+	import qnx.notification.Notification;
+	import qnx.notification.NotificationManager;
 	import qnx.system.FontSettings;
 
 	/**
@@ -61,23 +65,26 @@ package
 	public class PushReceiver extends Sprite
 	{
 		// Label to be displayed when there are no items currently in the list container
-		public static var noPushesLabel:Label = new Label();
+		public static var noPushesLabel:Label;
 		
 		// Shared cache for caching images used by the application
-		public static var imageCache:ImageCache = new ImageCache();		
+		public static var imageCache:ImageCache;		
 		
 		// The max. number of attempts to create the push session before returning an error
 		private static const MAX_CREATE_SESSION_FAILURES:uint = 5;
-		
-		// The service classes
-		private static var configService:ConfigurationService = ConfigurationServiceImpl.getConfigurationService();
-		private static var pushNotificationService:PushNotificationService = PushNotificationServiceImpl.getPushNotificationService();
 		
 		// Tracks the current number of create push session attempts
 		private static var numCreateSessionFailures:uint = 0;
 		
 		// The view (container) holding the list of push items 
-		private static var listContainer:ListContainer = ListContainer.getListContainer();
+		private static var listContainer:ListContainer;
+		
+		// The service classes
+		private static var configService:ConfigurationService = ConfigurationServiceImpl.getConfigurationService();
+		private static var pushNotificationService:PushNotificationService = PushNotificationServiceImpl.getPushNotificationService();
+		
+		// Whether or not the application has at some point in time been running in the foreground
+		private static var hasBeenInForeground:Boolean = false;
 		
 		public function PushReceiver()
 		{		
@@ -87,21 +94,35 @@ package
 			
 			super();
 			
+			NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, handleActivate);
+			
+			stage.align = StageAlign.TOP_LEFT;
+			stage.scaleMode = StageScaleMode.NO_SCALE;
+			
+			noPushesLabel = new Label();
+			imageCache = new ImageCache();
+			listContainer = ListContainer.getListContainer();
+			
 			// Indicate that we are using the user defined font settings on the device
 			FontSettings.fontSettings.useUserSettings = true;
 			// Listen for font changes and update the appropriate UI components
 			FontSettings.fontSettings.addEventListener(Event.CHANGE, fontSettingsChangeHandler);
 			
-			stage.align = StageAlign.TOP_LEFT;
-			stage.scaleMode = StageScaleMode.NO_SCALE;
-			
 			// Listen for a SIM card change (and handle it)
 			pushNotificationService.addEventListener(PushServiceEvent.SIM_CHANGE, simChange);
+			
+			// Listen for a push transport ready event (and handle it)
+			pushNotificationService.addEventListener(PushTransportReadyEvent.PUSH_TRANSPORT_READY, pushTransportReady);
 			
 			initializeUI();
 			
 			// Initialize the push session if a configuration has already been saved
 			initializePushSession();
+		}
+		
+		private function handleActivate(e:Event):void
+		{
+			hasBeenInForeground = true;
 		}
 		
 		/**
@@ -184,9 +205,9 @@ package
 		 * @param e an invoke event
 		 */		
 		private function invokeHandler(e:InvokeEvent):void
-		{			
+		{
 			if (configService.hasConfiguration()) {
-				// The underling net.rim.blackberry.push.PushService instance might not have been 
+				// The underlying net.rim.blackberry.push.PushService instance might not have been 
 				// initialized when an invoke first comes in
 				// Make sure that we initialize it here if it hasn't been already
 				// It requires an application ID (for consumer applications) so we have to check
@@ -205,10 +226,8 @@ package
 		
 		private function fontSettingsChangeHandler(e:Event):void
 		{
-			/*
 			noPushesLabel.updateFontSettings();
 			listContainer.updateFontSettings();
-			*/
 		}
 		
 		/**
@@ -216,7 +235,7 @@ package
 		 */
 		private function initializeUI():void
 		{							
-			var actionBar : ActionBar = new ActionBar();
+			var actionBar:ActionBar = new ActionBar();
 			actionBar.showTabsFirstOnBar(false);
 			
 			var configAction:Action = new Action(ActionBarHelper.CONFIG_ACTION_LABEL, "configicon.png");
@@ -266,7 +285,7 @@ package
 			addChild(noPushesContainer);
 			
 			listContainer.setActualSize(stage.stageWidth, actionBar.y); 
-						
+
 			addChild(listContainer);
 			
 			updateListContainerWithCurrentPushes();
@@ -351,10 +370,34 @@ package
 			var simChangeDialog:AlertDialog = new AlertDialog();
 			simChangeDialog.title = "Push Receiver";
 			simChangeDialog.message = "The SIM card was changed and, as a result, the current user has been unregistered. Would you like to re-register?";
-			simChangeDialog.addButton("Yes");
 			simChangeDialog.addButton("No");
+			simChangeDialog.addButton("Yes");
 			simChangeDialog.addEventListener(Event.SELECT, simChangeDialogClicked);
 			simChangeDialog.show();
+		}
+		
+		/**
+		 * Actions to perform after a push transport ready event has occurred.
+		 * @param e a push transport ready event
+		 */
+		private function pushTransportReady(e:PushTransportReadyEvent):void
+		{
+			var pushTransportReadyDialog:AlertDialog = new AlertDialog();
+			pushTransportReadyDialog.title = "Push Receiver";
+			pushTransportReadyDialog.addButton("Ok");
+			
+			var message:String = "The push transport is now available. Please try ";
+			
+			if (e.lastFailedOperation == PushTransportReadyEvent.CREATE_CHANNEL) {
+				message += "registering ";
+			} else {
+				message += "unregistering ";
+			}
+			
+			message += "again.";
+			
+			pushTransportReadyDialog.message = message;
+			pushTransportReadyDialog.show();
 		}
 		
 		/**
@@ -363,7 +406,7 @@ package
 		 */
 		private function simChangeDialogClicked(event:Event):void
 		{			
-			if (event.target.selectedIndex == 0) {
+			if (event.target.selectedIndex == 1) {
 				// The "Yes" button was clicked, show the register dialog
 				ActionBarHelper.getActionBarHelper().showRegisterDialog();
 			} 
@@ -416,6 +459,17 @@ package
 				// or the data of the push, we might decide that the push received did not match what we expected
 				// and so we might want to reject it)
 				pushNotificationService.acceptPush(pushPayload.id);
+			}
+			
+			// If the "Launch Application on New Push" checkbox was checked in the config settings, then 
+			// a new push will launch the app so that it's running in the background (if the app was not 
+			// already running when the push came in)
+			// In this case, the push launched the app (not the user), so it makes sense 
+			// once our processing of the push is done to just exit the app
+			// But, if the user has brought the app to the foreground at some point, then they know about the
+			// app running and so we leave the app running after we're done processing the push
+			if (!hasBeenInForeground) {
+		        NativeApplication.nativeApplication.exit();
 			}
 		}
 		
