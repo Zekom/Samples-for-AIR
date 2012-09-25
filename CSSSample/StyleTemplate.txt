@@ -1,0 +1,11 @@
+package qnx.samples.css.styles
+{
+	/**
+	 * Note: This is an auto generated class. Do not modify it. 
+	 * Instead, modify the source .css files and run an ANT build.
+	 */
+	public class {title}
+	{
+		public static const style:Array = {styles};
+	}
+}
