@@ -3,10 +3,9 @@
 The Push Receiver sample application demonstrates how to write a BlackBerry 10 Adobe AIR application that is able to receive pushes. 
 
 Consult the **net.rim.blackberry.push** package from the API reference for useful examples and a full description of how to use the
-push APIs. The API reference can be found [here while in beta](https://developer.blackberry.com/air/beta/apis/) or, if no longer in beta,
-[here](https://developer.blackberry.com/air/apis).
+push APIs. The API reference can be found [here](https://developer.blackberry.com/air/apis).
 
-There is also a very valuable developer guide for this sample push-enabled application that you can find [here](https://developer.blackberry.com/air/beta/documentation/overview_air_1976130_11.html).
+There is also a very valuable developer guide for this sample push-enabled application that you can find [here](https://developer.blackberry.com/air/documentation/overview_air_1976130_11.html).
 
 The developer guide offers the following topics:
 
@@ -21,7 +20,7 @@ The sample code for this application is Open Source under the [Apache 2.0 Licens
 
 **Applies To**
 
-* [BlackBerry 10 SDK for Adobe AIR Beta 3](https://developer.blackberry.com/air/beta/download/sdk)
+* [BlackBerry 10 SDK for Adobe AIR Beta 3](https://developer.blackberry.com/air/download/sdk)
 
 **Author(s)** 
 
@@ -32,7 +31,7 @@ The sample code for this application is Open Source under the [Apache 2.0 Licens
 
 # How to Download
 
-Download the source code as a zip from [here](https://developer.blackberry.com/air/beta/files/release/samples/PushServiceAIR_SampleApp.zip).
+Download the source code as a zip from [here](https://developer.blackberry.com/air/files/sampleapps/bb10/PushServiceAIR_SampleApp.zip).
 Unzip it locally to a folder named **PushReceiver** in a location of your choosing.
 
 ## How to Deploy
@@ -49,7 +48,7 @@ Adobe-AIR-SDK-install-directory/bin/blackberry-deploy
 
 The project files supplied are for Flash Builder 4.6 [http://www.adobe.com/products/flash-builder.html](http://www.adobe.com/products/flash-builder.html).
  
-Note: You will need to first download the [BlackBerry 10 SDK for Adobe AIR Beta 3](https://developer.blackberry.com/air/beta/download/sdk).
+Note: You will need to first download the [BlackBerry 10 SDK for Adobe AIR Beta 3](https://developer.blackberry.com/air/download/sdk).
 
 You can import the existing project files in Adobe Flash Builder 4.6 and build/deploy it from there:
 
