@@ -67,6 +67,7 @@ package qnx.samples.weatherguesser.ui.listClasses
 		override public function getTextFormatForState( state:String ):TextFormat
 		{
 			var format:TextFormat =  super.getTextFormatForState( state );
+			format.color = 0xFAFAFA;
 			format.size = 100;
 			return( format );
 		}

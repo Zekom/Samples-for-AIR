@@ -71,7 +71,7 @@ package qnx.samples.weatherguesser.views
 			var container:Container = new Container();
 			var s:Sprite = new Sprite();
 			var g:Graphics = s.graphics;
-			g.beginFill( 0x272727 );
+			g.beginFill( 0xf8f8f8 );
 			g.drawRect( 0, 0, 10, 10 );
 			g.endFill();
 
@@ -126,7 +126,6 @@ package qnx.samples.weatherguesser.views
 				var city:Label = new Label();
 				var format:TextFormat = new TextFormat;
 				format.size = 59;
-				format.color = 0xFFFFFF;
 				city.format = format;
 				city.layoutData = cityData;
 				container.addChild( city );

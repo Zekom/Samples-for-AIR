@@ -90,6 +90,7 @@ package qnx.samples.weatherguesser.views
 			
 			var format:TextFormat = label.format;
 			format.size = 54;
+			format.color = 0xFAFAFA;
 			format.italic = true;
 			format.font = "Slate Pro Light";
 			
@@ -128,6 +129,7 @@ package qnx.samples.weatherguesser.views
 			
 			format = footer.format;
 			format.size = 30;
+			format.color = 0xFAFAFA;
 			format.font = "Slate Pro Light";
 			
 			footer.format = format;

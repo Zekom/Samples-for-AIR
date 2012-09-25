@@ -39,6 +39,7 @@ package qnx.fuse.ui.navigation
 		
 		private var __activePane:BasePane;
 		private var __tabOverFlowParent:DisplayObjectContainer;
+		private var __slideX:Number = 0;
 		
 		public function get tabOverflowParent():DisplayObjectContainer
 		{
@@ -141,7 +142,8 @@ package qnx.fuse.ui.navigation
 
 		private function onDragMove( event:DragEvent ):void
 		{
-			this.x += event.deltaX;
+			__slideX += event.deltaX;
+			this.x = Math.round(__slideX + stage.stageWidth);
 		}
 		
 		private function updateActionBar():void

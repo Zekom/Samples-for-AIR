@@ -21,7 +21,7 @@ You will learn:
 ========================================================================
 Requirements:
 
-BlackBerry 10 SDK for Adobe AIR Beta 2
+BlackBerry 10 SDK for Adobe AIR Beta 3
 
 ========================================================================
 Running the example:

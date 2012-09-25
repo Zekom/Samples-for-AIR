@@ -33,7 +33,7 @@ package qnx.samples.weatherguesser
 	import flash.events.Event;
 	import flash.utils.ByteArray;
 
-	[SWF(backgroundColor="#272727", frameRate="60")]
+	[SWF(backgroundColor="#f8f8f8", frameRate="60")]
 	public class WeatherGuesser extends Sprite
 	{
 		[Embed(source="../assets/styles/styles.css", mimeType="application/octet-stream")]
@@ -47,7 +47,6 @@ package qnx.samples.weatherguesser
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.addEventListener( Event.RESIZE, stageResize );
 
-			ThemeGlobals.currentTheme = ThemeGlobals.BLACK;
 			ThemeGlobals.injectCSS( (new STYLES() as ByteArray).toString() );
 
 			tabOverFlow = new Sprite();

@@ -20,7 +20,7 @@ package qnx.samples.weatherguesser.views
 	import qnx.fuse.ui.core.ActionSet;
 	import qnx.fuse.ui.core.SizeOptions;
 	import qnx.fuse.ui.events.ActionEvent;
-	import qnx.fuse.ui.events.ExpandableEvent;
+	import qnx.fuse.ui.events.ContextMenuEvent;
 	import qnx.fuse.ui.events.ListEvent;
 	import qnx.fuse.ui.layouts.Align;
 	import qnx.fuse.ui.layouts.gridLayout.GridData;
@@ -39,6 +39,7 @@ package qnx.samples.weatherguesser.views
 		protected var list:SectionList;
 		private var favAction:Action;
 		private var homeAction:Action;
+		private var __contextMenuOpen:Boolean;
 		
 		public function FavoritesView() 
 		{
@@ -62,8 +63,8 @@ package qnx.samples.weatherguesser.views
 			list = new SectionList();
 			list.selectionMode = ListSelectionMode.SINGLE;
 			list.addEventListener( ListEvent.ITEM_CLICKED, listClicked );
-			list.addEventListener( ExpandableEvent.OPENING, contextMenuOpening );
-			list.addEventListener( ExpandableEvent.CLOSING, contextMenuClosing );
+			list.addEventListener( ContextMenuEvent.OPENING, contextMenuOpening );
+			list.addEventListener( ContextMenuEvent.CLOSING, contextMenuClosing );
 			list.addEventListener( ActionEvent.ACTION_SELECTED, contextMenuSelected );
 			
 			
@@ -94,9 +95,10 @@ package qnx.samples.weatherguesser.views
 			list.contextActions = contextActions;
 		}
 
-		private function contextMenuClosing( event:ExpandableEvent ):void
+		private function contextMenuClosing( event:ContextMenuEvent ):void
 		{
 			list.selectedItem = null;
+			__contextMenuOpen = false;
 		}
 		
 		private function contextMenuSelected( event:ActionEvent ):void
@@ -114,17 +116,22 @@ package qnx.samples.weatherguesser.views
 			
 		}
 
-		private function contextMenuOpening( event:ExpandableEvent ):void
+		private function contextMenuOpening( event:ContextMenuEvent ):void
 		{
-			var data:Object = list.selectedItem;
+			var data:Object = list.longPressedItem;
 			var actionSet:ActionSet = list.contextActions[ 0 ];
 			
 			actionSet.title = data.label;
-			
+			__contextMenuOpen = true;
 		}
 		
 		private function listClicked( event:ListEvent ):void
 		{
+			if( __contextMenuOpen )
+			{
+				return;
+			}
+			
 			list.selectedItem = null;
 			var weather:HomeView = new HomeView();
 			weather.title = event.data.label;

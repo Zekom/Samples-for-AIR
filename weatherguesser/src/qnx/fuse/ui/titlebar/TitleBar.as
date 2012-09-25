@@ -30,14 +30,33 @@ package qnx.fuse.ui.titlebar
 	public class TitleBar extends UIComponent
 	{
 		
-		[Embed(source="../../../../../assets/images/titlebar/core_titlebar.png")]
+		[Embed(source="../../../../../assets/images/titlebar/core_title_bar.png")]
 		private var BG_IMAGE : Class;
 		
-		
+		[Embed(source="../../../../../assets/images/titlebar/core_title_bar_shadow.png")]
+		private var SHADOW_IMAGE : Class;
 		
 		private var __bg:Bitmap;
+		private var __shadow:Bitmap;
 		private var __label:Label;
 		private var __title:String;
+		private var __paddingLeft:int;
+		
+		public function get paddingLeft():int
+		{
+			return( __paddingLeft );
+			
+		}
+		
+		public function set paddingLeft( value:int ):void
+		{
+			if( __paddingLeft != value )
+			{
+				__paddingLeft = value;
+				invalidateDisplayList();
+			}
+		}
+		
 		
 		public function get title():String
 		{
@@ -69,11 +88,14 @@ package qnx.fuse.ui.titlebar
 			__bg = DisplayObjectUtils.getDisplayAsset(BG_IMAGE) as Bitmap;
 			addChild( __bg );
 			
+			__shadow = DisplayObjectUtils.getDisplayAsset(SHADOW_IMAGE) as Bitmap;
+			addChild( __shadow );
+			
 			__label = new Label();
 			
 			var format:TextFormat = __label.format;
 			format.size = 54;
-			format.align = TextAlign.CENTER;
+			
 			__label.format = format;
 			__label.selectable = false;
 			addChild( __label );
@@ -87,7 +109,11 @@ package qnx.fuse.ui.titlebar
 			__bg.width = unscaledWidth;
 			__bg.height = unscaledHeight;
 			
-			__label.width = unscaledWidth;
+			__shadow.width = unscaledWidth;
+			__shadow.y = unscaledHeight;
+			
+			__label.x = __paddingLeft;
+			__label.width = unscaledWidth - __label.x;
 			__label.y = Math.round( ( unscaledHeight - __label.height ) / 2 );
 		}
 
