@@ -19,7 +19,6 @@ package net.rim.blackberry.pushreceiver.ui
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	
-	import net.rim.blackberry.pushreceiver.ui.renderer.DateHeadingRenderer;
 	import net.rim.blackberry.pushreceiver.ui.renderer.PushRenderer;
 	import net.rim.blackberry.pushreceiver.vo.Push;
 	
@@ -56,7 +55,6 @@ package net.rim.blackberry.pushreceiver.ui
 			list.scrollable = true;
 			list.scrollDirection = ScrollDirection.VERTICAL;
 			list.dataProvider = sectionDataProvider;
-			list.headerSkin = DateHeadingRenderer;
 			list.cellRenderer = PushRenderer;
 			list.selectionMode = ListSelectionMode.SINGLE;
 			list.allowDeselect = false;
@@ -101,6 +99,23 @@ package net.rim.blackberry.pushreceiver.ui
 		public function selectItem(item:Object):void
 		{
 			list.selectedItem = item;	
+		}
+		
+		public function findPushInList(pushSeqNum:int):Push
+		{
+			for (var i:uint = 0; i < sectionDataProvider.length; i++) {
+				var dateHeading:Object = sectionDataProvider.getItemAt(i);
+				
+				for (var j:uint = 0; j < sectionDataProvider.getChildrenLengthForItem(dateHeading); j++) {
+					var push:Push = sectionDataProvider.getChildInItemAt(dateHeading, j) as Push;
+					
+					if (push.seqNum == pushSeqNum) {
+						return push;
+					}
+				}
+			}
+			
+			return null;
 		}
 		
 		/**

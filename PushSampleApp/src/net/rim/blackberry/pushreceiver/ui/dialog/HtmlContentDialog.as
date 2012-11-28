@@ -67,6 +67,7 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 		{			
 			super.show();
 			
+			content.width = header.width;
 			content.height = height - header.height - footer.height;
 			footer.y = height - footer.height;
 			
@@ -81,7 +82,7 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 		{
 			isWebviewCreated = true;			
 			
-			webview.viewPort = new Rectangle(0, header.height, width, content.height); 
+			webview.viewPort = new Rectangle(this.leftShadow, header.height, content.width - this.leftShadow - this.rightShadow, content.height); 
 		}
 		
 		private function webviewDispose(e:Event):void

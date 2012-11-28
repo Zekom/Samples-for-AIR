@@ -26,9 +26,7 @@ package net.rim.blackberry.pushreceiver.vo
 		// The unique id of the push history item (to identify it in the database)
 		public var seqNum:int;
 		
-		// For our implementation, this will match the "Push-Message-ID" header that
-		// comes back with each push
-		// If the header is missing, then we assume that there is no duplicate
+		// This itemId will be used to check for duplicate pushes
 		public var itemId:String;
 		
 		public function PushHistoryItem()
