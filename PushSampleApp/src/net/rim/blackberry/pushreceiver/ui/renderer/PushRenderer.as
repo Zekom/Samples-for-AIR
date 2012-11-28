@@ -38,6 +38,7 @@ package net.rim.blackberry.pushreceiver.ui.renderer
 	import qnx.fuse.ui.text.TextFormatStyle;
 	import qnx.fuse.ui.text.TextTruncationMode;
 	import qnx.fuse.ui.utils.LayoutUtil;
+	import qnx.notification.NotificationManager;
 	
 	/**
 	 * Renders a push in the list.
@@ -92,22 +93,7 @@ package net.rim.blackberry.pushreceiver.ui.renderer
 			pushPreview.updateFontSettings();
 		}
 		
-		/**
-		 * Opens a push item by displaying its contents in a dialog. 
-		 * @param event a mouse event
-		 */
-		public function openPush():void
-		{
-			var push:Push = data as Push;
-			
-			var pushNotificationService:PushNotificationService = PushNotificationServiceImpl.getPushNotificationService();
-			pushNotificationService.markPushAsRead(push.seqNum);
-			
-			var updatedPush:Push = pushNotificationService.getPush(push.seqNum);
-			updatedPush.dateHeading = push.dateHeading;
-			
-			ListContainer.getListContainer().updatePush(push.dateHeading, updatedPush, push);
-			
+		public static function displayPushDialog(push:Push):void {
 			if (push.contentType == Push.CONTENT_TYPE_TEXT || push.fileExtension == Push.FILE_EXTENSION_XML 
 				|| push.contentType == Push.CONTENT_TYPE_IMAGE) {
 				var openDialog:PushContentDialog = new PushContentDialog();
@@ -126,6 +112,28 @@ package net.rim.blackberry.pushreceiver.ui.renderer
 				openHtmlDialog.htmlContent = htmlBytes.readUTFBytes(htmlBytes.length);
 				openHtmlDialog.show();
 			}
+		}
+		
+		/**
+		 * Opens a push item by displaying its contents in a dialog. 
+		 * @param event a mouse event
+		 */
+		public function openPush():void
+		{
+			var push:Push = data as Push;
+			
+			var pushNotificationService:PushNotificationService = PushNotificationServiceImpl.getPushNotificationService();
+			pushNotificationService.markPushAsRead(push.seqNum);
+			
+			// The push has been opened, so delete the notification
+			NotificationManager.notificationManager.deleteNotification(PushReceiver.NOTIFICATION_PREFIX + push.seqNum);
+			
+			var updatedPush:Push = pushNotificationService.getPush(push.seqNum);
+			updatedPush.dateHeading = push.dateHeading;
+			
+			ListContainer.getListContainer().updatePush(push.dateHeading, updatedPush, push);
+			
+			displayPushDialog(push);
 		}
 
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
@@ -274,6 +282,9 @@ package net.rim.blackberry.pushreceiver.ui.renderer
 				deleteIcon.setImage("trash.png");
 				
 				var push:Push = data as Push;
+				
+				// The push has been deleted, so delete the notification
+				NotificationManager.notificationManager.deleteNotification(PushReceiver.NOTIFICATION_PREFIX + push.seqNum);
 				
 				removePush(push);
 			} else {

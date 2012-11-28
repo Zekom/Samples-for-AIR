@@ -45,7 +45,7 @@ package net.rim.blackberry.pushreceiver.service
 	 */
 	public class PushNotificationServiceImpl extends EventDispatcher implements PushNotificationService
 	{
-		private static const INVOKE_TARGET_ID:String = "sample.pushreceiver.invoke.target";
+		private static const INVOKE_TARGET_ID_PUSH:String = "sample.pushreceiver.invoke.push";
 		
 		private static var instance:PushNotificationService = null;
 		private static var pushService:PushService;
@@ -97,9 +97,9 @@ package net.rim.blackberry.pushreceiver.service
 				previousApplicationId = config.providerApplicationId;
 				try {
 					if (!config.providerApplicationId) {
-						pushService = new PushService(INVOKE_TARGET_ID);
+						pushService = new PushService(INVOKE_TARGET_ID_PUSH);
 					} else {
-						pushService = new PushService(INVOKE_TARGET_ID, config.providerApplicationId);
+						pushService = new PushService(INVOKE_TARGET_ID_PUSH, config.providerApplicationId);
 					}
 				} catch (error:ArgumentError) {
 					// Note: As a best practice in your application, you should handle this error gracefully.

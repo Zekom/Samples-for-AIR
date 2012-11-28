@@ -26,20 +26,34 @@
         <image>PushReceiver-icon.png</image>
     </icon> 
 
-    <splashScreens><image>PushReceiver-splash.png</image></splashScreens>
-
+    <splashScreens>
+        <image>splash-768x1280.png</image>
+        <image>splash-720x720.png</image>
+    </splashScreens>
+	
     <permission>read_device_identifying_information</permission>
     <permission>post_notification</permission>
+    <!-- This permission is needed for a consumer (public) push application only (not enterprise push)! -->
+    <permission system="true">_sys_use_consumer_push</permission>
     <action system="true">run_air_native</action>
     
     <!-- Need to put an invoke entry here for push -->
     <!-- The id here must match the invokeTargetID in the net.rim.push.PushService constructor -->
-	<invoke-target id="sample.pushreceiver.invoke.target">
-	   <entry-point>1</entry-point>
-	   <type>APPLICATION</type>
-	   <filter>
-	      <action>bb.action.PUSH</action>
-	      <mime-type>application/vnd.push</mime-type>
-	   </filter>
+	<invoke-target id="sample.pushreceiver.invoke.push">
+	    <type>APPLICATION</type>
+	    <filter>
+	        <action>bb.action.PUSH</action>
+	        <mime-type>application/vnd.push</mime-type>
+	    </filter>
 	</invoke-target>
+	
+  <!-- Have an invoke entry here for when a notification is clicked on in the BlackBerry Hub -->
+  <!-- This will cause the application to be opened -->
+  <invoke-target id="sample.pushreceiver.invoke.open">
+      <type>APPLICATION</type>
+      <filter>
+          <action>bb.action.OPEN</action>
+          <mime-type>text/plain</mime-type>
+      </filter>
+  </invoke-target>  	
 </qnx>
