@@ -15,7 +15,6 @@
  */
 package qnx.samples.starshipsettings.views
 {
-
 	import qnx.fuse.ui.buttons.CheckBox;
 	import qnx.fuse.ui.buttons.LabelPlacement;
 	import qnx.fuse.ui.buttons.RadioButton;
@@ -30,6 +29,7 @@ package qnx.samples.starshipsettings.views
 	import qnx.fuse.ui.slider.Slider;
 	import qnx.fuse.ui.text.Label;
 	import qnx.samples.starshipsettings.ui.WarpImage;
+
 	import flash.net.SharedObject;
 
 	/**

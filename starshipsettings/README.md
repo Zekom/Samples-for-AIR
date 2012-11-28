@@ -3,12 +3,12 @@
 === Sample Description ===
 
 This sample shows a simple control panel for your average starship. You
-will learn how to use the SharedObject API for persistant store of the
+will learn how to use the SharedObject API for persistent store of the
 different settings.
 
 === Requirements ===
 
-BlackBerry 10 SDK for Adobe AIR Beta 2
+BlackBerry 10 SDK for Adobe AIR Beta 4
 
 === Running the example ===
 

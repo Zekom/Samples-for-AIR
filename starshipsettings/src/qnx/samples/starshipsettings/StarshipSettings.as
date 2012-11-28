@@ -15,9 +15,9 @@
  */
 package qnx.samples.starshipsettings
 {
-
 	import qnx.fuse.ui.theme.ThemeGlobals;
 	import qnx.samples.starshipsettings.views.StarshipSettingsView;
+
 	import flash.desktop.NativeApplication;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;

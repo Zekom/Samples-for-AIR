@@ -47,8 +47,11 @@ package qnx.samples.weatherguesser
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.addEventListener( Event.RESIZE, stageResize );
 
+			//setting mouseChildren=false and opaqueBackground globally helps scrolling performance
+			ThemeGlobals.injectCSS( "CellRenderer{ mouseChildren:false; opaqueBackground:#FAFAFA;}" );
 			ThemeGlobals.injectCSS( (new STYLES() as ByteArray).toString() );
 
+			
 			tabOverFlow = new Sprite();
 			addChild( tabOverFlow );
 

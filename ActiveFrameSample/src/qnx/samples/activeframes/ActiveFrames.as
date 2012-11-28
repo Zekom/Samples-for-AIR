@@ -1,5 +1,19 @@
-package qnx.samples.activeframes
-{
+/*
+* Copyright (c) 2012 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+package qnx.samples.activeframes {
 	import qnx.display.IowWindow;
 	import qnx.events.QNXCoverEvent;
 	import qnx.events.QNXSystemEvent;
@@ -33,6 +47,7 @@ package qnx.samples.activeframes
 		
 		private var coverlabel:Label;
 		private var coverbg:Bitmap;
+	
 		
 		public function ActiveFrames()
 		{
@@ -47,7 +62,7 @@ package qnx.samples.activeframes
 			format.align = TextAlign.CENTER;
 			label.format = format;
 			label.width = stage.stageWidth;
-			label.height = 300;
+			label.height = stage.stageHeight;
 			addChild( label );
 			
 			//update the time every second.
@@ -55,6 +70,7 @@ package qnx.samples.activeframes
 			timer.addEventListener(TimerEvent.TIMER, onTimer );
 			timer.start();
 			
+
 			//Setup some listeners for the covers.
 			QNXCover.qnxCover.transition = QNXCoverTransition.NONE;
 			QNXCover.qnxCover.addEventListener(QNXCoverEvent.COVER_ENTER, onCoverEnter );
@@ -63,9 +79,10 @@ package qnx.samples.activeframes
 			
 			//Create an event listener for the alarm when minimzed.
 			QNXSystem.system.addEventListener(QNXSystemEvent.ALARM, onAlarm );
+
 			
 		}
-		
+
 		private function createCover():void
 		{
 			//Created a cover if we haven't already.
@@ -84,16 +101,17 @@ package qnx.samples.activeframes
 				cover.stage.scaleMode = StageScaleMode.NO_SCALE;
 				cover.stage.align = StageAlign.TOP_LEFT;
 				cover.visible = false;
-				coverbg = new Bitmap( new BitmapData( cover.width, cover.height, false, 0xFFFF0000 ) );
+				coverbg = new Bitmap( new BitmapData( cover.width, cover.height, false, 0xFF000000 ) );
 				cover.stage.addChild( coverbg );
 				coverlabel = new Label();
 				var format:TextFormat = coverlabel.format;
 				format.color = 0xFAFAFA;
 				format.size = 50;
+				coverlabel.maxLines = 0;
 				coverlabel.format = format;
 				cover.stage.addChild( coverlabel );
 			
-				cover.activate();
+				
 			}
 			
 			//resize the cover.
@@ -103,7 +121,7 @@ package qnx.samples.activeframes
 			coverlabel.width = cover.width;
 			coverbg.height = cover.height;
 			coverbg.width = cover.width;
-			
+			cover.activate();
 		}
 		
 		
@@ -115,7 +133,7 @@ package qnx.samples.activeframes
 			var currentMode:String = QNXSystem.system.powerMode;
 			QNXSystem.system.powerMode = QNXSystemPowerMode.NORMAL;
 			
-			coverlabel.text = parseTime();
+			coverlabel.text = parseCover();
 			QNXSystem.system.powerMode = currentMode;
 		}
 		
@@ -136,18 +154,18 @@ package qnx.samples.activeframes
 		//Start the alarm when the cover is shown.
 		private function onCoverEnter( event:QNXCoverEvent ):void
 		{
-			coverlabel.text = parseTime();
-			//Randomly picked 20 seconds to demo.
+			coverlabel.text = parseCover();
+
 			//Updating covers frequently may cause some renders to be skipped.
-			__alarmID = QNXSystem.system.setAlarm( 20 * 1000, true );
+			__alarmID = QNXSystem.system.setAlarm( 60 * 1000, true );
 		}
+
 
 		//Update the time.
 		private function onTimer( event:TimerEvent ):void
 		{
-			var time:String = parseTime();
-			label.text = time;
-			coverlabel.text = time;
+			label.text = parseTime();
+			coverlabel.text = parseCover();
 		}
 		
 		//Parse the time.
@@ -160,6 +178,86 @@ package qnx.samples.activeframes
 			return( str );
 		}
 		
+		private function parseCover():String
+		{
+			var str:String = "";
+			var now:Date = new Date();
+			var hours:int = now.getHours();
+			var hours24:int = hours;
+			
+			if( hours > 12 && hours != 0 )
+			{
+				hours -= 12;
+			}
+			
+			var mins:int = now.getMinutes();
+			
+			if( mins == 0 )
+			{
+				
+				if( hours24 == 12 )
+				{
+					str = "it's " + Words.NOON;
+				}
+				else if( hours24 == 0 )
+				{
+					str = "it's " + Words.MIDNIGHT;
+				}
+				else
+				{
+					str = "it's " + Words.numbers[ hours - 1 ] + " o'clock";
+				}
+			}
+			else if( mins == 30 )
+			{
+				if( hours24 == 12 )
+				{
+					str = "it's half past " + Words.NOON;
+				}
+				else if( hours24 == 0 )
+				{
+					str = "it's half past " + Words.MIDNIGHT;
+				}
+				else
+				{
+					str = "it's half past " + Words.numbers[ hours - 1 ];
+				}
+			}
+			else if( mins < 30 )
+			{
+				str = "it's " + Words.numbers[ mins - 1] + " after ";
+				if( hours24 == 12 )
+				{
+					 str += Words.NOON;
+				}
+				else if( hours24 == 0 )
+				{
+					 str += Words.MIDNIGHT;
+				}
+				else
+				{
+					 str += Words.numbers[ hours - 1 ];
+				}
+			}
+			else if( mins > 30 )
+			{
+				str = "it's " + Words.numbers[ 30 - ( mins - 30 ) - 1 ] + " to ";
+				if( hours24 == 11 )
+				{
+					 str += Words.NOON;
+				}
+				else if( hours24 == 23 )
+				{
+					 str += Words.MIDNIGHT;
+				}
+				else
+				{
+					 str += Words.numbers[ hours ];
+				}
+			}
+			
+			return( str );	
+		}
 		
 	}
 }

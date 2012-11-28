@@ -1,4 +1,4 @@
-#Tue Sep 25 06:13:56 PDT 2012
+#Mon Nov 19 10:01:17 EST 2012
 AnePlatforms/Id.BlackBerryPushService.ane=net.rim.blackberry.PushService
 AnePlatforms/Id.QNXDevice.ane=qnx.system.QNXDevice
 AnePlatforms/Id.QNXNetwork.ane=qnx.net.QNXNetwork.ane
@@ -9,7 +9,7 @@ AnePlatforms/Platforms.QNXDevice.ane=QNX-ARM,QNX-x86,default
 AnePlatforms/Platforms.QNXNetwork.ane=QNX-ARM,QNX-x86,default
 AnePlatforms/Platforms.QNXSensors.ane=QNX-ARM,default
 AnePlatforms/Platforms.QNXSkins.ane=QNX-ARM,QNX-x86,default
-AnesChanged=2
+AnesChanged=6
 com.powerflasher.fdt.core.CompatiblePlayers=AIR_Debug_Launcher
 com.powerflasher.fdt.core.CompilerArguments=-static-link-runtime-shared-libraries\=true\n-target-player\={playerVersion}\n-library-path+\="{flexSDK}/frameworks/locale/en_US"\n-default-size\=550,400
 com.powerflasher.fdt.core.DefaultOutputFolder=bin

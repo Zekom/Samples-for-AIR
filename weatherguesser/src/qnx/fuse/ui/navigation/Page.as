@@ -15,9 +15,11 @@
 */
 package qnx.fuse.ui.navigation
 {
+	import caurina.transitions.Tweener;
 	import qnx.fuse.ui.core.Action;
 	import qnx.fuse.ui.core.ActionBase;
 	import qnx.fuse.ui.core.UIComponent;
+	import qnx.fuse.ui.events.DragEvent;
 	import qnx.fuse.ui.titlebar.TitleBar;
 
 	/**
@@ -29,6 +31,8 @@ package qnx.fuse.ui.navigation
 		private var __actions:Vector.<Action>;
 		private var __content:UIComponent;
 		private var __titleBar:TitleBar;
+		private var __slideX:Number = 0;
+		private var __backButtonDragging:Boolean;
 		
 		public function get actions():Vector.<Action>
 		{
@@ -119,9 +123,57 @@ package qnx.fuse.ui.navigation
 					if( actionBar )
 					{
 						actionBar.backButton = back;
+						actionBar.enableBackButtonDrag = true;
+						actionBar.addEventListener(DragEvent.DRAG_BEGIN, onBackDragBegin );
+						actionBar.addEventListener(DragEvent.DRAG_MOVE, onBackDragMove );
+						actionBar.addEventListener(DragEvent.DRAG_END, onBackDragEnd );
 					}
 				}
+				else
+				{
+					removeDragListeners();
+				}
 			}
+		}
+		
+		private function removeDragListeners():void
+		{
+			if( actionBar )
+			{
+				actionBar.enableBackButtonDrag = false;
+				actionBar.removeEventListener(DragEvent.DRAG_BEGIN, onBackDragBegin );
+				actionBar.removeEventListener(DragEvent.DRAG_MOVE, onBackDragMove );
+				actionBar.removeEventListener(DragEvent.DRAG_END, onBackDragEnd );
+			}
+		}
+
+		private function onBackDragBegin( event:DragEvent ):void
+		{
+			__backButtonDragging = true;
+			__slideX = this.x;
+		}
+
+		private function onBackDragEnd( event:DragEvent ):void
+		{
+			if( this.x/stage.stageWidth > .6 )
+			{
+				popAndDeletePage();
+			}
+			else
+			{
+				Tweener.addTween( this, {x:0, time:.5, onComplete:closeComplete } );
+			}
+		}
+		
+		private function closeComplete():void
+		{
+			__backButtonDragging = false;
+		}
+
+		private function onBackDragMove( event:DragEvent ):void
+		{
+			__slideX += event.deltaX;
+			this.x = __slideX;
 		}
 		
 		override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ):void
@@ -146,10 +198,12 @@ package qnx.fuse.ui.navigation
 		
 		override public function onActionSelected( action:ActionBase ):void
 		{
-			if( actionBar != null && action == actionBar.backButton )
+			if( actionBar != null && action == actionBar.backButton && !__backButtonDragging )
 			{
 				popAndDeletePage();
 			}
+			
+			__backButtonDragging = false;
 		}
 		
 		override public function getActionsToDisplayOnBar():Vector.<Action>
@@ -160,6 +214,13 @@ package qnx.fuse.ui.navigation
 			}
 			
 			return( super.getActionsToDisplayOnBar() );
+		}
+		
+		
+		override protected function popAndDeletePage():void
+		{
+			removeDragListeners();
+			super.popAndDeletePage();
 		}
 	}
 }

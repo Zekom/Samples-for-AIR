@@ -1,7 +1,7 @@
-#Tue Sep 25 06:14:00 PDT 2012
+#Mon Nov 19 10:07:51 EST 2012
 AnePlatforms/Id.QNXSkins.ane=qnx.fuse.ui.skins.QNXSkins
 AnePlatforms/Platforms.QNXSkins.ane=QNX-ARM,QNX-x86,default
-AnesChanged=28
+AnesChanged=33
 com.powerflasher.fdt.core.CompatiblePlayers=AIR_Debug_Launcher
 com.powerflasher.fdt.core.CompilerArguments=-static-link-runtime-shared-libraries\=true\n-target-player\={playerVersion}\n-library-path+\="{flexSDK}/frameworks/locale/en_US"\n-default-size\=550,400
 com.powerflasher.fdt.core.DefaultOutputFolder=bin
@@ -31,9 +31,9 @@ com.powerflasher.fdt.core.mobile.BlackBerry.EXTRA.PACKAGING.OPTIONS=
 com.powerflasher.fdt.core.mobile.BlackBerry.ICON.PATH.icon\ 86x86=bin/appicon.png
 com.powerflasher.fdt.core.mobile.BlackBerry.ICON.PATH.splash\ 1024x600=bin/background.png
 com.powerflasher.fdt.core.mobile.BlackBerry.ICON.PATH.splash\ 600x1024=bin/background.png
-com.powerflasher.fdt.core.mobile.BlackBerry.MOBILE.DESCRIPTOR=bin/Weather Guesser-app.xml
+com.powerflasher.fdt.core.mobile.BlackBerry.MOBILE.DESCRIPTOR=bin/weatherguesser-app.xml
 com.powerflasher.fdt.core.mobile.BlackBerry.MOBILE.DESCRIPTOR1=bin/bar-descriptor.xml
-com.powerflasher.fdt.core.mobile.BlackBerry.PACKAGE.CONTENT=bin/Weather Guesser-app.xml > Weather Guesser-app.xml;bin/bar-descriptor.xml > bar-descriptor.xml;bin/Weather_Guesser.swf > Weather_Guesser.swf;bin/weatherguesser.db > weatherguesser.db;bin/json;
+com.powerflasher.fdt.core.mobile.BlackBerry.PACKAGE.CONTENT=bin/weatherguesser-app.xml > weatherguesser-app.xml;bin/bar-descriptor.xml > bar-descriptor.xml;bin/weatherguesser.swf > weatherguesser.swf;bin/weatherguesser.db > weatherguesser.db;bin/json;
 com.powerflasher.fdt.core.mobile.iOS.AVAILABLE.EXTENSIONS=qnx.fuse.ui.skins.QNXSkins
 com.powerflasher.fdt.core.mobile.iOS.MOBILE.DESCRIPTOR=bin/weatherguesser-app.xml
 eclipse.preferences.version=1
