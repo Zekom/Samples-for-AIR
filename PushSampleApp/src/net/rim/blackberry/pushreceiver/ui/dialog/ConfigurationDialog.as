@@ -19,7 +19,6 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
-	import net.rim.blackberry.pushreceiver.ui.ListContainer;
 	import net.rim.blackberry.pushreceiver.events.ConfigurationDialogEvent;
 	
 	import qnx.fuse.ui.buttons.CheckBox;
@@ -29,8 +28,10 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 	import qnx.fuse.ui.dialog.AlertDialog;
 	import qnx.fuse.ui.layouts.Align;
 	import qnx.fuse.ui.layouts.gridLayout.GridLayout;
-	import qnx.fuse.ui.text.TextInput;
 	import qnx.fuse.ui.listClasses.ScrollDirection;
+	import qnx.fuse.ui.text.Label;
+	import qnx.fuse.ui.text.TextFormat;
+	import qnx.fuse.ui.text.TextInput;
 	
 	/**
 	 * Dialog for setting configuration settings.
@@ -46,11 +47,12 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 		public var appIdField:TextInput = new TextInput();
 		public var ppgUrlField:TextInput = new TextInput();
 		public var piUrlField:TextInput = new TextInput();
-		public var launchAppOnPushField:CheckBox = new CheckBox();	
+		public var launchAppOnPushField:CheckBox = new CheckBox();
+		public var errorLabel:Label = new Label();
 		
 		protected var publicPPGRadioButtonText:String = "Public/BIS";
-		protected var enterprisePPGRadioButtonText:String = "Enterprise/BES";
-		protected var useSDKAsPILabelStr:String = "Use Push Service SDK as Push Initiator";
+		protected var enterprisePPGRadioButtonText:String = "Enterprise/BDS";
+		protected var useSDKAsPILabelStr:String = "Subscribe with Push Service SDK";
 		protected var appIdLabelStr:String = "Application ID";
 		protected var ppgUrlLabelStr:String = "PPG URL";
 		protected var piUrlLabelStr:String = "Push Initiator URL";
@@ -178,6 +180,21 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 			this.launchAppOnPushField.selected = value;	
 		}
 		
+		public function set errorText(value:String):void
+		{
+			if (errorLabel.text == value)
+			{
+				return;
+			}
+			
+			errorLabel.text = value;
+		}
+		
+		public function get errorText():String
+		{
+			return errorLabel.text;
+		}
+		
 		override protected function createContent(container:Container):void
 		{
 			super.createContent(container);
@@ -212,9 +229,20 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 			enterprisePPGRadioButton.label = this.enterprisePPGRadioButtonText;
 			useSDKAsPIField.label = this.useSDKAsPILabelStr;
 			appIdField.prompt = this.appIdLabelStr;
+			appIdField.spellCheck = false;
+			appIdField.autoCorrect = false;
 			ppgUrlField.prompt = this.ppgUrlLabelStr;
+			ppgUrlField.spellCheck = false;
+			ppgUrlField.autoCorrect = false;
 			piUrlField.prompt = this.piUrlLabelStr;
+			piUrlField.spellCheck = false;
+			piUrlField.autoCorrect = false;
 			launchAppOnPushField.label = this.launchAppOnPushLabelStr;
+			
+			errorLabel.maxLines = 0;
+			var textFormat:TextFormat = new TextFormat();
+			textFormat.color = 0xFF0000;
+			errorLabel.format = textFormat;
 			
 			container.scrollDirection = ScrollDirection.VERTICAL;
 			container.addChild(radioButtonContainer);
@@ -223,8 +251,20 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 			container.addChild(this.ppgUrlField);
 			container.addChild(this.piUrlField);
 			container.addChild(this.launchAppOnPushField);
+			container.addChild(this.errorLabel);
 		}
 
+		override public function show():void
+		{
+			if (!errorText)
+			{
+				errorLabel.includeInLayout = false;
+				errorLabel.visible = false;
+			} 
+			
+			super.show();
+		}
+		
 		private function createNotificationEvent(e:Event):void
 		{			
 			var evt:ConfigurationDialogEvent = new ConfigurationDialogEvent(ConfigurationDialogEvent.BUTTON_CLICKED);

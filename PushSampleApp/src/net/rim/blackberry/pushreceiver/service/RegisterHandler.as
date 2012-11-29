@@ -83,7 +83,7 @@ package net.rim.blackberry.pushreceiver.service
 			if (config.usingPublicPushProxyGateway) {
 				requestVars.type = "public";
 			} else {
-				requestVars.type = "enterprise";
+				requestVars.type = "bds";
 			}
 			request.data = requestVars;
 			request.method = URLRequestMethod.GET;
@@ -156,8 +156,8 @@ package net.rim.blackberry.pushreceiver.service
 			} else if (returnCode == "rc=10025") {
 				errorEvent = new SubscribeToPushInitiatorErrorEvent(
 					SubscribeToPushInitiatorErrorEvent.SUBSCRIBE_TO_PI_ERROR, false, false, 
-					"Error: The Push Initiator application had a type of Enterprise Push " +
-					"and had the bypass subscription flag set to true.", 10025);
+					"Error: The Push Initiator application has the bypass subscription flag set to true " +
+					"(so no subscribe is allowed).", 10025);
 				eventDispatcher.dispatchEvent(errorEvent);	
 			} else if (returnCode == "rc=10026") {
 				errorEvent = new SubscribeToPushInitiatorErrorEvent(
@@ -177,7 +177,8 @@ package net.rim.blackberry.pushreceiver.service
 				// debugging
 				errorEvent= new SubscribeToPushInitiatorErrorEvent(
 					SubscribeToPushInitiatorErrorEvent.SUBSCRIBE_TO_PI_ERROR, false, false, 
-					"Error: The type specified was null, empty, or not one of 'public' or 'enterprise'.", 10028);
+					"Error: The type parameter specified was null, empty, not one of 'public' or 'bds', or invalid " +
+					"for the push application type.", 10028);
 				eventDispatcher.dispatchEvent(errorEvent);	
 			} else if (returnCode == "rc=-9999") {
 				errorEvent = new SubscribeToPushInitiatorErrorEvent(

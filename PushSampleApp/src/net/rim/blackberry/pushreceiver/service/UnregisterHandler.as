@@ -153,8 +153,8 @@ package net.rim.blackberry.pushreceiver.service
 			} else if (returnCode == "rc=10025") {
 				errorEvent = new UnsubscribeFromPushInitiatorErrorEvent(
 					UnsubscribeFromPushInitiatorErrorEvent.UNSUBSCRIBE_FROM_PI_ERROR, false, false, 
-					"Error: The Push Initiator application had a type of Enterprise Push and had " +
-					"the bypass subscription flag set to true.", 10025);
+					"Error: The Push Initiator application has the bypass subscription flag set to true " +
+					"(so no unsubscribe is allowed).", 10025);
 				eventDispatcher.dispatchEvent(errorEvent);	
 			} else if (returnCode == "rc=10026") {
 				errorEvent = new UnsubscribeFromPushInitiatorErrorEvent(

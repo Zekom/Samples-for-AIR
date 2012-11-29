@@ -30,6 +30,7 @@ package net.rim.blackberry.pushreceiver.ui
 	
 	import qnx.fuse.ui.dialog.AlertDialog;
 	import qnx.fuse.ui.dialog.LoginDialog;
+	import qnx.notification.NotificationManager;
 	
 	/**
 	 * Helper class for handling actions involving the action bar.
@@ -155,6 +156,9 @@ package net.rim.blackberry.pushreceiver.ui
 		 */
 		public function performMarkAllAsOpen():void
 		{
+			// All the pushes have been marked as open/read, so delete all the notifications for the app
+			NotificationManager.notificationManager.deleteNotification();
+			
 			ListContainer.getListContainer().removeAll();
 			
 			pushNotificationService.markAllPushesAsRead();
@@ -185,6 +189,9 @@ package net.rim.blackberry.pushreceiver.ui
 		{				
 			if (event.target.selectedIndex == 1) {
 				// The "Delete" button was clicked
+				// All the pushes have been deleted, so delete all the notifications for the app
+				NotificationManager.notificationManager.deleteNotification();
+				
 				pushNotificationService.deleteAllPushes();
 				
 				ListContainer.getListContainer().removeAll();
@@ -218,7 +225,6 @@ package net.rim.blackberry.pushreceiver.ui
 			dialog.title = "Register";
 			dialog.usernamePrompt = "Username"; 
 			dialog.passwordPrompt = "Password";
-			dialog.showPasswordLabel = "Show Password";
 			dialog.addButton("Cancel");
 			dialog.addButton("Register");
 			dialog.addEventListener(Event.SELECT, registerDialogClicked);	
@@ -236,7 +242,6 @@ package net.rim.blackberry.pushreceiver.ui
 			dialog.title = "Unregister";
 			dialog.usernamePrompt = "Username"; 
 			dialog.passwordPrompt = "Password";
-			dialog.showPasswordLabel = "Show Password";
 			dialog.addButton("Cancel");
 			dialog.addButton("Unregister");
 			dialog.addEventListener(Event.SELECT, unregisterDialogClicked);	
@@ -389,45 +394,45 @@ package net.rim.blackberry.pushreceiver.ui
 				
 				var messageStr:String;
 				if ((event.usingPublicPushProxyGateway || event.useSDKAsPushInitiator) && !event.providerApplicationId) {
-					messageStr = "Error: No provider application ID was specified.";
+					messageStr = "Please specify an Application ID.";
 					initializeConfigDialogAfterError(event);
-					configDialog.message = messageStr;
+					configDialog.errorText = messageStr;
 					configDialog.show();
 				} else if ((event.usingPublicPushProxyGateway || event.useSDKAsPushInitiator) && event.providerApplicationId.indexOf("||") != -1) {
-					messageStr = "Error: A provider application ID is not allowed to contain '||'.";
+					messageStr = "Application ID is not allowed to contain '||'.";
 					initializeConfigDialogAfterError(event);
-					configDialog.message = messageStr;
+					configDialog.errorText = messageStr;
 					configDialog.show();
 				} else if (event.usingPublicPushProxyGateway && !event.pushProxyGatewayUrl) {
-					messageStr = "Error: No PPG URL was specified.";
+					messageStr = "Please specify a PPG URL.";
 					initializeConfigDialogAfterError(event);
-					configDialog.message = messageStr;
+					configDialog.errorText = messageStr;
 					configDialog.show();
 				} else if (event.usingPublicPushProxyGateway && !event.pushProxyGatewayUrl.match("^http://")) {
-					messageStr = "Error: The PPG URL must start with http://.";
+					messageStr = "PPG URL must start with http://.";
 					initializeConfigDialogAfterError(event);
-					configDialog.message = messageStr;
+					configDialog.errorText = messageStr;
 					configDialog.show();
 				} else if (event.usingPublicPushProxyGateway && event.pushProxyGatewayUrl.match("/$")) {
-					messageStr = "Error: The PPG URL should not end with a /. One will be automatically added to the end.";
+					messageStr = "PPG URL should not end with a /. One will be automatically added.";
 					initializeConfigDialogAfterError(event);
-					configDialog.message = messageStr;
+					configDialog.errorText = messageStr;
 					configDialog.show();					
 				} else if (event.useSDKAsPushInitiator && !event.pushInitiatorUrl) {
-					messageStr = "Error: No Push Initiator URL was specified.";
+					messageStr = "Please specify a Push Initiator URL.";
 					initializeConfigDialogAfterError(event);
 					configDialog.pushInitiatorUrl = "";
-					configDialog.message = messageStr;
+					configDialog.errorText = messageStr;
 					configDialog.show();
 				}  else if (event.useSDKAsPushInitiator && !event.pushInitiatorUrl.match("^http://") && !event.pushInitiatorUrl.match("^https://")) {
-					messageStr = "Error: The Push Initiator URL must start with http:// or https://.";
+					messageStr = "Push Initiator URL must start with http:// or https://.";
 					initializeConfigDialogAfterError(event);
-					configDialog.message = messageStr;
+					configDialog.errorText = messageStr;
 					configDialog.show();
 				} else if (event.useSDKAsPushInitiator && event.pushInitiatorUrl.match("/$")) {
-					messageStr = "Error: The Push Initiator URL should not end with a /. One will be automatically added to the end.";
+					messageStr = "Push Initiator URL should not end with a /. One will be automatically added.";
 					initializeConfigDialogAfterError(event);
-					configDialog.message = messageStr;
+					configDialog.errorText = messageStr;
 					configDialog.show();
 				} else {
 					progressDialog = getProgressDialog("Configuration", "Storing configuration...");
@@ -616,12 +621,12 @@ package net.rim.blackberry.pushreceiver.ui
 				
 				var messageStr:String;
 				if (!username) {
-					messageStr = "Error: No username was specified.";
+					messageStr = "Please specify a username.";
 					registerDialog.password = password;
 					registerDialog.errorText = messageStr;
 					registerDialog.show();
 				} else if (!password) {
-					messageStr = "Error: No password was specified.";
+					messageStr = "Please specify a password.";
 					registerDialog.username = username;
 					registerDialog.errorText = messageStr;
 					registerDialog.show();
@@ -677,6 +682,9 @@ package net.rim.blackberry.pushreceiver.ui
 				message = "Create channel failed as the push transport is unavailable. " +
 					"Verify your mobile network and/or Wi-Fi are turned on. " +
 					"If they are on, you will be notified when the push transport is available again.";
+			} else if (e.errorID == PushServiceErrorEvent.PPG_SERVER_ERROR) {
+				message = "Create channel failed as the PPG is currently returning a server error. " +
+					"You will be notified when the PPG is available again.";				
 			} else {
 				// Typically in your own application you wouldn't want to display this error to your users
 				message = "Create channel failed with error code: " + e.errorID + ".";	
@@ -722,12 +730,12 @@ package net.rim.blackberry.pushreceiver.ui
 				
 				var messageStr:String;
 				if (!username) {
-					messageStr = "Error: No username was specified.";
+					messageStr = "Please specify a username.";
 					unregisterDialog.password = password;
 					unregisterDialog.errorText = messageStr;
 					unregisterDialog.show();
 				} else if (!password) {
-					messageStr = "Error: No password was specified.";
+					messageStr = "Please specify a password.";
 					unregisterDialog.username = username;
 					unregisterDialog.errorText = messageStr;
 					unregisterDialog.show();
@@ -779,6 +787,9 @@ package net.rim.blackberry.pushreceiver.ui
 				message = "Destroy channel failed as the push transport is unavailable. " +
 					"Verify your mobile network and/or Wi-Fi are turned on. " +
 					"If they are on, you will be notified when the push transport is available again.";
+			} else if (e.errorID == PushServiceErrorEvent.PPG_SERVER_ERROR) {
+				message = "Destroy channel failed as the PPG is currently returning a server error. " +
+					"You will be notified when the PPG is available again.";				
 			} else {
 				// Typically in your own application you wouldn't want to display this error to your users
 				message = "Destroy channel failed with error code: " + e.errorID + ".";

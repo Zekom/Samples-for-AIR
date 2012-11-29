@@ -21,6 +21,7 @@ package
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
+	import flash.utils.ByteArray;
 	
 	import net.rim.blackberry.events.PushServiceErrorEvent;
 	import net.rim.blackberry.events.PushServiceEvent;
@@ -30,6 +31,7 @@ package
 	import net.rim.blackberry.pushreceiver.service.*;
 	import net.rim.blackberry.pushreceiver.ui.ActionBarHelper;
 	import net.rim.blackberry.pushreceiver.ui.ListContainer;
+	import net.rim.blackberry.pushreceiver.ui.renderer.PushRenderer;
 	import net.rim.blackberry.pushreceiver.vo.*;
 	
 	import qnx.crypto.Base64;
@@ -64,11 +66,16 @@ package
 	 */
 	public class PushReceiver extends Sprite
 	{
+		public static const NOTIFICATION_PREFIX:String = "sample.push.PushReceiver_";
+		
 		// Label to be displayed when there are no items currently in the list container
 		public static var noPushesLabel:Label;
 		
 		// Shared cache for caching images used by the application
 		public static var imageCache:ImageCache;		
+		
+		// Constant for the invoke target ID for an application open action
+		private static const INVOKE_TARGET_ID_OPEN:String = "sample.pushreceiver.invoke.open";
 		
 		// The max. number of attempts to create the push session before returning an error
 		private static const MAX_CREATE_SESSION_FAILURES:uint = 5;
@@ -88,8 +95,7 @@ package
 		
 		public function PushReceiver()
 		{		
-			// Add an invoke event handler to handle incoming push notifications
-			// We will ignore non-push invoke events
+			// Add an event listener to handle incoming invokes
 			InvokeManager.invokeManager.addEventListener(InvokeEvent.INVOKE, invokeHandler);
 			
 			super();
@@ -220,6 +226,21 @@ package
 					var pushPayload:PushPayload = pushNotificationService.extractPushPayload(invokeRequest);
 					
 					pushNotificationHandler(pushPayload);
+				} else if (invokeRequest.action == InvokeAction.OPEN) {
+					var pushSeqNum:int = invokeRequest.data.readInt();
+
+					pushNotificationService.markPushAsRead(pushSeqNum);
+					
+					var currentPush:Push = listContainer.findPushInList(pushSeqNum);
+					
+					var updatedPush:Push = pushNotificationService.getPush(pushSeqNum);
+					updatedPush.dateHeading = currentPush.dateHeading;
+					
+					listContainer.updatePush(currentPush.dateHeading, updatedPush, currentPush);
+					
+					listContainer.selectItem(updatedPush);
+					
+					PushRenderer.displayPushDialog(updatedPush);
 				}
 			}
 		}
@@ -386,7 +407,7 @@ package
 			pushTransportReadyDialog.title = "Push Receiver";
 			pushTransportReadyDialog.addButton("Ok");
 			
-			var message:String = "The push transport is now available. Please try ";
+			var message:String = "The push transport/wireless network/PPG is now available. Please try ";
 			
 			if (e.lastFailedOperation == PushTransportReadyEvent.CREATE_CHANNEL) {
 				message += "registering ";
@@ -426,7 +447,11 @@ package
 			if (pushNotificationService.checkForDuplicatePush(pushHistoryItem)) {
 				// A duplicate was found, stop processing. Silently discard this push from the user
 				trace("Duplicate push was found with ID: " + pushPayload.id + ".");
-				return;
+
+				// Exit the application if it has not been brought to the foreground
+				if (!hasBeenInForeground) {
+					NativeApplication.nativeApplication.exit();
+				}
 			}
 			
 			// Hide this message since there will be pushes visible
@@ -461,6 +486,23 @@ package
 				pushNotificationService.acceptPush(pushPayload.id);
 			}
 			
+			// Add a notification for the push to the BlackBerry Hub
+			var notification:Notification = new Notification();
+			notification.itemId = NOTIFICATION_PREFIX + push.seqNum;
+			notification.title = "Push Receiver";
+			notification.subTitle = "New " + push.fileExtension + " push received";
+			notification.invokeAction = "bb.action.OPEN";
+			notification.invokeTarget = INVOKE_TARGET_ID_OPEN;
+			notification.invokeMimeType = "text/plain";
+			
+			// We set the data of the invoke to be the seqnum of the 
+			// push so that we know which push needs to be opened
+			var openInvokeData:ByteArray = new ByteArray();
+			openInvokeData.writeInt(push.seqNum);
+			notification.invokeData = openInvokeData;
+			
+			NotificationManager.notificationManager.notifyNotification(notification);
+			
 			// If the "Launch Application on New Push" checkbox was checked in the config settings, then 
 			// a new push will launch the app so that it's running in the background (if the app was not 
 			// already running when the push came in)
@@ -483,6 +525,12 @@ package
 		private function getPushContentType(contentTypeHeaderValue:String):String
 		{
 			if(!contentTypeHeaderValue) {
+				var alertDialog:AlertDialog = new AlertDialog();
+				alertDialog.title = "Push Receiver";
+				alertDialog.message = "Error: Missing Content-Type header for push. Defaulting to text.";
+				alertDialog.addButton("Ok");
+				alertDialog.show();
+
 				return Push.CONTENT_TYPE_TEXT; 
 			}
 			
@@ -505,7 +553,13 @@ package
 		private function getPushContentFileExtension(contentTypeHeaderValue:String):String
 		{
 			if(!contentTypeHeaderValue) {
-				return null; 
+				var alertDialog:AlertDialog = new AlertDialog();
+				alertDialog.title = "Push Receiver";
+				alertDialog.message = "Error: Missing Content-Type header for push. Defaulting to text.";
+				alertDialog.addButton("Ok");
+				alertDialog.show();
+				
+				return Push.FILE_EXTENSION_TEXT;
 			}
 			
 			if (contentTypeHeaderValue.match("^application/xml")) {
@@ -521,7 +575,12 @@ package
 			} else if (contentTypeHeaderValue.match("^text/plain")) {
 				return Push.FILE_EXTENSION_TEXT;
 			} else {
-				trace("File extension is unknown for Content-Type header value: " + contentTypeHeaderValue + ".");
+				var alert:AlertDialog = new AlertDialog();
+				alert.title = "Push Receiver";
+				alert.message = "Error: File extension is unknown for Content-Type header value: " + contentTypeHeaderValue + ".";
+				alert.addButton("Ok");
+				alert.show();
+
 				return null;
 			}
 		}
