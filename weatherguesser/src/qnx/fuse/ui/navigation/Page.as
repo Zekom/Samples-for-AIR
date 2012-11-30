@@ -161,7 +161,8 @@ package qnx.fuse.ui.navigation
 			}
 			else
 			{
-				Tweener.addTween( this, {x:0, time:.5, onComplete:closeComplete } );
+				var t:Number = this.x/2000;
+				Tweener.addTween( this, {x:0, time:t, transition:"easeOutCubic", onComplete:closeComplete } );
 			}
 		}
 		
@@ -173,7 +174,7 @@ package qnx.fuse.ui.navigation
 		private function onBackDragMove( event:DragEvent ):void
 		{
 			__slideX += event.deltaX;
-			this.x = __slideX;
+			this.x = Math.max( 0, __slideX );
 		}
 		
 		override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ):void

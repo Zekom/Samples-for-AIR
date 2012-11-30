@@ -81,7 +81,8 @@ package qnx.fuse.ui.navigation
 			}
 			else
 			{
-				Tweener.addTween( pane, {x:width, time:0.5, onComplete:transitionOutComplete, onCompleteParams:[pane,callDestroy]} );
+				var t:Number = (width-pane.x)/2000;
+				Tweener.addTween( pane, {x:width, time:t, transition:"easeOutCubic", onComplete:transitionOutComplete, onCompleteParams:[pane,callDestroy]} );
 			}
 			
 		}
@@ -100,7 +101,7 @@ package qnx.fuse.ui.navigation
 			if( animate )
 			{
 				pane.x = width;
-				Tweener.addTween( pane, {x:0, time:0.5, onComplete:transitionInComplete, onCompleteParams:[pane]} );
+				Tweener.addTween( pane, {x:0, time:pane.x/2000, transition:"easeOutCubic", onComplete:transitionInComplete, onCompleteParams:[pane]} );
 			}
 			else
 			{
