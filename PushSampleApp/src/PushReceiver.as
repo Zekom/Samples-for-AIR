@@ -452,6 +452,8 @@ package
 				if (!hasBeenInForeground) {
 					NativeApplication.nativeApplication.exit();
 				}
+				
+				return;
 			}
 			
 			// Hide this message since there will be pushes visible
