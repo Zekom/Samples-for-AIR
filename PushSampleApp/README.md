@@ -1,6 +1,6 @@
 # Push Receiver Sample Application Description #
 
-The Push Receiver sample application demonstrates how to write a BlackBerry 10 Adobe AIR application that is able to receive pushes. 
+The Push Receiver sample push-enabled application demonstrates how to write a BlackBerry 10 Adobe AIR application that is able to receive pushes. 
 
 Consult the **net.rim.blackberry.push** package from the API reference for useful examples and a full description of how to use the
 push APIs. The API reference can be found [here](https://developer.blackberry.com/air/apis).
@@ -11,7 +11,7 @@ The developer guide offers the following topics:
 
 1. An overview of push and the Push Service architecture
 2. The requirements for creating a full push solution
-3. How to setup Adobe Flash Builder 4.6 to work with the Push Receiver sample application (This is also described below.)
+3. How to download and build the Push Receiver sample application (This is also described below.)
 4. How to configure the sample application when it's loaded on your BlackBerry 10 device (This is also described below.)
 5. Code samples to help you write your own push application using the BlackBerry 10 AIR SDK
 
@@ -20,7 +20,7 @@ The sample code for this application is Open Source under the [Apache 2.0 Licens
 
 **Applies To**
 
-* [BlackBerry 10 SDK for Adobe AIR Beta 4](https://developer.blackberry.com/air/download/sdk)
+* [BlackBerry 10 SDK for Adobe AIR](https://developer.blackberry.com/air/download/sdk)
 
 **Author(s)** 
 
@@ -48,7 +48,7 @@ Adobe-AIR-SDK-install-directory/bin/blackberry-deploy
 
 The project files supplied are for Flash Builder 4.6 [http://www.adobe.com/products/flash-builder.html](http://www.adobe.com/products/flash-builder.html).
  
-Note: You will need to first download the [BlackBerry 10 SDK for Adobe AIR Beta 4](https://developer.blackberry.com/air/download/sdk).
+Note: You will need to first download the [BlackBerry 10 SDK for Adobe AIR](https://developer.blackberry.com/air/download/sdk).
 
 You can import the existing project files in Adobe Flash Builder 4.6 and build/deploy it from there:
 
@@ -139,7 +139,7 @@ had not been checked, then it will jump straight into the register (i.e. create 
 
 ## More Info
 
-* [BlackBerry 10 SDK for Adobe AIR Beta 4](https://developer.blackberry.com/air)
+* [BlackBerry 10 SDK for Adobe AIR](https://developer.blackberry.com/air)
 * [Push Service SDK Download](https://developer.blackberry.com/services/push)
 * [Push Service SDK Development Guides](http://docs.blackberry.com/en/developers/subcategories/?userType=21&category=Push+Service)
 * [Push Service Registration Form](https://www.blackberry.com/profile/?eventId=8121)
