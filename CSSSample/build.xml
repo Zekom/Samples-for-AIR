@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="CSS Sample" default="parseCSS">
+	
+	<scriptdef name="parse-css" src="parse-css.js" language="javascript">
+	   <attribute name="input"/>
+	   <attribute name="output"/>
+	   <attribute name="template"/>
+	</scriptdef> 
+	
+	
+	
+	
+	<target name="parseCSS">
+		<parse-css input="src/styles.css" output="src/qnx/samples/css/styles/CoreStyles.as" template="StyleTemplate.txt"/>
+	</target>
+</project>

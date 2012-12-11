@@ -1,0 +1,13 @@
+Box
+{
+	color:#FF0000;
+	startWidth:400;
+	startHeight:400;
+}
+
+Box Label
+{
+	text-align:center;
+	text-color:#FFFFFF;
+	text-size:60;
+}

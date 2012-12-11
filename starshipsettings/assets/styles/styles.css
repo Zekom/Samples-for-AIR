@@ -1,0 +1,16 @@
+Label {
+	text-scale: .75;
+	text-style: none;
+}
+
+#GravityLabel {
+	text-bold: true;
+	text-style: title;
+	text-align: center;
+}
+
+RadioButton {
+	text-size: 58;
+	text-maxSize: 58;
+	text-style: none;
+}
