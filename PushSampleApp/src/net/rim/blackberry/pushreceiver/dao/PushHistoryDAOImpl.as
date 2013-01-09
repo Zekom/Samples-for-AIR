@@ -79,6 +79,21 @@ package net.rim.blackberry.pushreceiver.dao
 			}
 		}
 		
+		public function removeAllPushHistoryItems():void
+		{
+			var sql:String = "DROP TABLE pushhistory;";	
+			
+			var stmt:SQLStatement = new SQLStatement();
+			stmt.sqlConnection = getSQLConnection();
+			stmt.text = sql;
+			
+			try {
+				stmt.execute();
+			} catch(e:Error) {
+				trace("Error executing SQL statement: " + e.message + ".\r" + e.getStackTrace());
+			}
+		}
+		
 		public function getPushHistoryItem(pushHistoryItemId:String):PushHistoryItem
 		{
 			var sql:String = "SELECT rownum, itemid FROM pushhistory WHERE itemid = ?;";

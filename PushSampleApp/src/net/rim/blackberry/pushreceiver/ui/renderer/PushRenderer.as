@@ -160,6 +160,11 @@ package net.rim.blackberry.pushreceiver.ui.renderer
 			pushTime = new Label();
 			deleteIcon = new Image();
 			
+			// Turn off mouse events for these children to help performance
+			pushTypeIcon.mouseEnabled = false;
+			pushPreview.mouseEnabled = false;
+			pushTime.mouseEnabled = false;
+			
 			format = new TextFormat();
 			format.style = TextFormatStyle.CONTENT;
 			

@@ -31,6 +31,8 @@ package net.rim.blackberry.pushreceiver.dao
 		
 		function removeOldestPushHistoryItem():void;
 		
+		function removeAllPushHistoryItems():void;
+		
 		function getPushHistoryItem(pushHistoryItemId:String):PushHistoryItem;
 		
 		function getPushHistoryCount():int;

@@ -103,5 +103,10 @@ package net.rim.blackberry.pushreceiver.service
 		{
 			return pushDAO.getUnreadPushCount();
 		}
+		
+		public function deleteAllPushHistoryItems():void
+		{
+			return pushHistoryDAO.removeAllPushHistoryItems();
+		}
 	}
 }
