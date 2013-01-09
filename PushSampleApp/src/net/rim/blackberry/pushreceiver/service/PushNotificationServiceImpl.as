@@ -146,6 +146,13 @@ package net.rim.blackberry.pushreceiver.service
 			var config:Configuration = configService.getConfiguration();
 			var user:User = getCurrentlyRegisteredUser();
 			
+			// Delete all pushes (since we might be dealing with a new user 
+			// and they should not see the old user's pushes)
+			deleteAllPushes();
+			
+			// Also, remove the push history
+			deleteAllPushHistoryItems();
+			
 			if (config.pushInitiatorUrl && user) {
 				unsubscribeFromPushInitiator(user);
 				
@@ -252,6 +259,11 @@ package net.rim.blackberry.pushreceiver.service
 		public function getUnreadPushCount():int
 		{
 			return new PushHandler().getUnreadPushCount();
+		}
+		
+		public function deleteAllPushHistoryItems():void
+		{
+			new PushHandler().deleteAllPushHistoryItems();
 		}
 		
 		private function showInitializationErrorDialog():void

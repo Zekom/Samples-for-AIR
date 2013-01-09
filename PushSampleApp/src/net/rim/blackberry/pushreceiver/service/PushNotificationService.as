@@ -77,6 +77,8 @@ package net.rim.blackberry.pushreceiver.service
 		
 		function getUnreadPushCount():int;
 		
+		function deleteAllPushHistoryItems():void;
+		
 		// SIM-related service functions
 		function handleSimChange():void;
 		
