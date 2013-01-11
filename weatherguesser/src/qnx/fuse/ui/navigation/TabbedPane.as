@@ -270,15 +270,13 @@ package qnx.fuse.ui.navigation
 		
 		private function sizeNavigationPaneStack( pane:NavigationPane ):void
 		{
-			if( pane.stack.length > 1 )
+			
+			for( var i:int = 0; i<pane.stack.length; i++ )
 			{
-				pane.top.height = height;
-				pane.top.width = width;
-			}
-			else if( pane.stack.length == 1 )
-			{
-				pane.stack[ 0 ].height = getContentHeight();
-				pane.stack[ 0 ].width = width;
+				var page:Page = pane.stack[ i ];
+				page.width = width;
+				var h:Number = ( i == 0 ) ? getContentHeight() : height;
+				page.height = h;
 			}
 		}
 		
