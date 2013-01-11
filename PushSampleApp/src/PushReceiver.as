@@ -385,8 +385,14 @@ package
 			// Remove the currently registered user (if there is one)
 			// and unsubscribe the user from the Push Initiator since
 			// switching SIMs might indicate we are dealing with
-			// a different user
+			// a different user.  Also, remove all pushes and push
+			// history from the database.
 			pushNotificationService.handleSimChange();
+			
+			// Remove all notifications from the Hub and pushes displayed on the screen
+			NotificationManager.notificationManager.deleteNotification();
+			listContainer.removeAll();
+			noPushesLabel.visible = true;
 			
 			var simChangeDialog:AlertDialog = new AlertDialog();
 			simChangeDialog.title = "Push Receiver";
