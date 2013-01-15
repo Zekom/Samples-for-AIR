@@ -32,7 +32,7 @@ package qnx.fuse.ui.navigation
 	{
 
 		private var __tabs:Vector.<Tab>;
-		private var __actions:Vector.<Action>;
+		private var __actions:Vector.<ActionBase>;
 		private var __activeTab:Tab;
 		private var __tabsChanged:Boolean;
 		private var __activeTabChanged:Boolean;
@@ -318,7 +318,7 @@ package qnx.fuse.ui.navigation
 			}
 		}
 		
-		override public function getActionsToDisplayOnBar():Vector.<Action>
+		override public function getActionsToDisplayOnBar():Vector.<ActionBase>
 		{
 			if( __activePane )
 			{

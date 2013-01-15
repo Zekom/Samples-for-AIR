@@ -44,7 +44,7 @@
     <!-- Whether the window is transparent. Only applicable when systemChrome is none. Optional. Default false. -->
     <!-- <transparent></transparent> -->
     <!-- Whether the window is initially visible. Optional. Default false. -->
-    <!-- <visible></visible> -->
+    <visible>true</visible>
     <!-- Whether the user can minimize the window. Optional. Default true. -->
     <!-- <minimizable></minimizable> -->
     <!-- Whether the user can maximize the window. Optional. Default true. -->

@@ -51,7 +51,7 @@ package qnx.samples.weatherguesser.views
 			moreAction = new Action( "More Info", new Assets.ICON_CONTINENTS() );
 			moreAction.actionBarPlacement = ActionPlacement.ON_BAR;
 			
-			actions = new Vector.<Action>();
+			actions = new Vector.<ActionBase>();
 			actions.push( moreAction );
 		}
 		

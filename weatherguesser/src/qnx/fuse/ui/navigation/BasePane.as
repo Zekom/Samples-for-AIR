@@ -175,9 +175,9 @@ package qnx.fuse.ui.navigation
 			return( null );
 		}
 		
-		public function getActionsToDisplayOnBar():Vector.<Action>
+		public function getActionsToDisplayOnBar():Vector.<ActionBase>
 		{
-			return( new Vector.<Action>() );
+			return( new Vector.<ActionBase>() );
 		}
 
 	}

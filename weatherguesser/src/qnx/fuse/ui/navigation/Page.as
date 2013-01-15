@@ -16,6 +16,7 @@
 package qnx.fuse.ui.navigation
 {
 	import caurina.transitions.Tweener;
+
 	import qnx.fuse.ui.core.Action;
 	import qnx.fuse.ui.core.ActionBase;
 	import qnx.fuse.ui.core.UIComponent;
@@ -28,22 +29,23 @@ package qnx.fuse.ui.navigation
 	public class Page extends BasePane
 	{
 		
-		private var __actions:Vector.<Action>;
+		private var __actions:Vector.<ActionBase>;
 		private var __content:UIComponent;
 		private var __titleBar:TitleBar;
 		private var __slideX:Number = 0;
 		private var __backButtonDragging:Boolean;
 		
-		public function get actions():Vector.<Action>
+		public function get actions():Vector.<ActionBase>
 		{
 			return( __actions );
 		}
 		
-		public function set actions( value:Vector.<Action> ):void
+		public function set actions( value:Vector.<ActionBase> ):void
 		{
 			if( __actions != value )
 			{
 				__actions = value;
+				invalidateProperties();
 			}
 		}
 		
@@ -114,20 +116,31 @@ package qnx.fuse.ui.navigation
 		
 		override protected function createActionBar():void
 		{
+			
 			if( paneProperties is NavigationPaneProperties )
 			{
 				var back:Action = NavigationPaneProperties( paneProperties ).backButton;
 				if( back != null )
 				{
+					
 					super.createActionBar();
+					
 					if( actionBar )
 					{
+						actionBar.removeAll();
+						
+						if( __actions && __actions.length > 0 )
+						{
+							actionBar.addActionsAt(__actions, 0);
+						}
+						
 						actionBar.backButton = back;
 						actionBar.enableBackButtonDrag = true;
 						actionBar.addEventListener(DragEvent.DRAG_BEGIN, onBackDragBegin );
 						actionBar.addEventListener(DragEvent.DRAG_MOVE, onBackDragMove );
 						actionBar.addEventListener(DragEvent.DRAG_END, onBackDragEnd );
 					}
+					
 				}
 				else
 				{
@@ -207,7 +220,7 @@ package qnx.fuse.ui.navigation
 			__backButtonDragging = false;
 		}
 		
-		override public function getActionsToDisplayOnBar():Vector.<Action>
+		override public function getActionsToDisplayOnBar():Vector.<ActionBase>
 		{
 			if( actions )
 			{

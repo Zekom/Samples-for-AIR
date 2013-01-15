@@ -12,7 +12,7 @@
 <booleanAttribute key="DISABLE_COMPILE_PROCESS" value="false"/>
 <booleanAttribute key="INSTALL_APPLICATION" value="true"/>
 <stringAttribute key="LAUNCHER_DEPENDENCIES" value="[Self]"/>
-<intAttribute key="LAUNCH_METHOD" value="1"/>
+<intAttribute key="LAUNCH_METHOD" value="0"/>
 <stringAttribute key="MAIN_CLASS" value="src/qnx/samples/weatherguesser/WeatherGuesser.as"/>
 <stringAttribute key="MOBILE_PRESET" value="Blackberry Playbook"/>
 <intAttribute key="PACKAGE_METHOD" value="0"/>
@@ -30,7 +30,7 @@
 <stringAttribute key="START_SWF_WITH" value="AIR Debug Launcher"/>
 <stringAttribute key="TARGET_PLATFORM" value="BlackBerry"/>
 <stringAttribute key="TARGET_PLATFORM_CONFIG" value="Primary"/>
-<booleanAttribute key="USE_PROJECT_COMPILER_ARGUMENTS" value="true"/>
+<booleanAttribute key="USE_PROJECT_COMPILER_ARGUMENTS" value="false"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/weatherguesser"/>
 </listAttribute>
