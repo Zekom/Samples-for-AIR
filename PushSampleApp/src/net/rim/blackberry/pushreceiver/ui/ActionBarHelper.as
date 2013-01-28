@@ -547,7 +547,7 @@ package net.rim.blackberry.pushreceiver.ui
 			} else if (shouldUnregisterFromLaunch) {
 				pushNotificationService.unregisterFromLaunch();
 			} else {
-				dialogSuccess("Configuration", "Configuration was saved.");						
+				dialogSuccess("Configuration", "Configuration was saved. Please register now.");						
 			}
 		}
 		
@@ -569,7 +569,7 @@ package net.rim.blackberry.pushreceiver.ui
 		 */
 		private function registerToLaunchSuccess(e:PushServiceEvent):void
 		{			
-			dialogSuccess("Configuration", "Configuration was saved.");	
+			dialogSuccess("Configuration", "Configuration was saved. Please register now.");	
 		}
 		
 		/**
@@ -590,7 +590,7 @@ package net.rim.blackberry.pushreceiver.ui
 		 */
 		private function unregisterFromLaunchSuccess(e:PushServiceEvent):void
 		{
-			dialogSuccess("Configuration", "Configuration was saved.");	
+			dialogSuccess("Configuration", "Configuration was saved. Please register now.");	
 		}
 		
 		/**
