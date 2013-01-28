@@ -5,7 +5,7 @@ The Push Receiver sample push-enabled application demonstrates how to write a Bl
 Consult the **net.rim.blackberry.push** package from the API reference for useful examples and a full description of how to use the
 push APIs. The API reference can be found [here](https://developer.blackberry.com/air/apis).
 
-There is also a very valuable developer guide for this sample push-enabled application that you can find [here](https://developer.blackberry.com/air/documentation/overview_air_1976130_11.html).
+There is also a very valuable developer guide for this sample push-enabled application that you can find [here](https://developer.blackberry.com/air/documentation/bb10/overview_air_1976130_11.html).
 
 The developer guide offers the following topics:
 
