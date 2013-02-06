@@ -15,6 +15,7 @@
  */
 package qnx.samples.starshipsettings.views
 {
+
 	import qnx.fuse.ui.buttons.CheckBox;
 	import qnx.fuse.ui.buttons.LabelPlacement;
 	import qnx.fuse.ui.buttons.RadioButton;
@@ -29,7 +30,6 @@ package qnx.samples.starshipsettings.views
 	import qnx.fuse.ui.slider.Slider;
 	import qnx.fuse.ui.text.Label;
 	import qnx.samples.starshipsettings.ui.WarpImage;
-
 	import flash.net.SharedObject;
 
 	/**
@@ -37,7 +37,7 @@ package qnx.samples.starshipsettings.views
 	 */
 	public class StarshipSettingsView extends Container
 	{
-		[Embed(source="../assets/images/Background.png")]
+		[Embed(source="/../assets/images/Background.png")]
 		public var bgImage : Class;
 		private var _background : Image;
 		private var _controlContainer : Container;
@@ -217,13 +217,14 @@ package qnx.samples.starshipsettings.views
 			so.data['warpSpeed'] = _warpSlider.value;
 			so.data['scannerActive'] = _scannerCheckbox.selected;
 			so.data['gravity'] = _gravityToggle.selected;
+			so.data['initialized'] = true;
 			so.flush();
 		}
 
 		private function loadSettings() : void
 		{
 			var so : SharedObject = SharedObject.getLocal( "starshipSettings" );
-			if (so)
+			if (so && so.data.hasOwnProperty( 'initialized' ))
 			{
 				var selectedBtn : RadioButton = (so.data['powerTarget'] == "SAUNA") ? (_saunaRadioButton) : (_hyperDriveRadioButton);
 				selectedBtn.selected = true;
