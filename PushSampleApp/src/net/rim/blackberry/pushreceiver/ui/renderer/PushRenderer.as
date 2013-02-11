@@ -280,21 +280,18 @@ package net.rim.blackberry.pushreceiver.ui.renderer
 		 * @param event a dialog event 
 		 */
 		protected function deleteDialogClicked(event:Event):void
-		{				
+		{		
+			// Remove the highlight
+			deleteIcon.setImage("trash.png");
+			
 			if (event.target.selectedIndex == 1) {
 				// The "Delete" button was clicked
-				// Remove the highlight
-				deleteIcon.setImage("trash.png");
-				
 				var push:Push = data as Push;
 				
 				// The push has been deleted, so delete the notification
 				NotificationManager.notificationManager.deleteNotification(PushReceiver.NOTIFICATION_PREFIX + push.seqNum);
 				
 				removePush(push);
-			} else {
-				// Remove the highlight
-				deleteIcon.setImage("trash.png");
 			}
 			
 			wasDeleteIconClicked = false;

@@ -5,7 +5,7 @@ The Push Receiver sample push-enabled application demonstrates how to write a Bl
 Consult the **net.rim.blackberry.push** package from the API reference for useful examples and a full description of how to use the
 push APIs. The API reference can be found [here](https://developer.blackberry.com/air/apis).
 
-There is also a very valuable developer guide for this sample push-enabled application that you can find [here](https://developer.blackberry.com/air/documentation/bb10/overview_air_1976130_11.html).
+There is also a valuable developer guide on how to write a push-enabled application using Adobe AIR that you can find [here](https://developer.blackberry.com/air/documentation/bb10/overview_air_1976130_11.html).
 
 The developer guide offers the following topics:
 
@@ -95,9 +95,11 @@ Under the **Digital Signature** tab, check **Enable digital signing** if you wou
 In order to be able to send pushes to the Push Receiver sample app, you will need to write a server-side push application (called a Push Initiator) to send out pushes with.
 Luckily, this is fairly easy to do using the Push Service SDK available [here](https://developer.blackberry.com/services/push).
 
-You'll find all the documentation for the Push Service SDK [here](http://docs.blackberry.com/en/developers/subcategories/?userType=21&category=Push+Service).
+You'll find all the documentation for the Push Service SDK [here](http://developer.blackberry.com/java/documentation/push_service_sdk.html).
+The low-level API reference for the Push Service SDK can be found [here](http://www.blackberry.com/developers/docs/PushServiceSDK1.2/LowLevelAPI).
+The high-level API reference for the Push Service SDK can be found [here](http://www.blackberry.com/developers/docs/PushServiceSDK1.2/HighLevelAPI).
 
-Note that in order to use the Push Service for developing an application for the general public, you will have to first register [here](https://www.blackberry.com/profile/?eventId=8121).
+Note that in order to use the Push Service for developing an application for the general public (non-enterprise), you will have to first register [here](https://www.blackberry.com/profile/?eventId=8121).
 
 
 ## How to receive a push
@@ -108,11 +110,12 @@ Note that in order to use the Push Service for developing an application for the
 4. Clear the **Subscribe with Push Service SDK** check box if one of the following is true:
     * You implemented a Push Initiator that does not use the Push Service SDK.
     * Your Push Initiator only uses the low-level APIs without subscription support from the Push Service SDK.
+    * You're using the low-level sample Push Initiator that comes with the Push Service SDK.
 5. If the **Subscribe with Push Service SDK** check box is selected, in the **Application ID** field, perform one of the
 following actions:
     * If you are using the BlackBerry Internet Service as the PPG, type the application ID specified in the confirmation
-email message that you received from RIM.
-    * If you are using the BlackBerry Device Service as the PPG, type a unique application ID of your choosing. If you
+email message that you received after registering to use the Push Service.
+    * If you are using the BlackBerry Device Service (part of BlackBerry Enterprise Service 10) as the PPG, type a unique application ID of your choosing. If you
 clear the **Subscribe with Push Service SDK** check box, you cannot type an application ID. In this case, the
 Push Service APIs create an application ID for you automatically.
 6. If you are using the BlackBerry Internet Service as the PPG, in the **PPG URL** field, type the PPG base URL specified in
@@ -120,10 +123,10 @@ the confirmation email message. The sample application uses this URL to create a
 evaluation environment, the URL is http://cp{cpid}.pushapi.eval.blackberry.com, where {cpid} is your content
 provider ID. For a production environment, the URL is http://cp{cpid}.pushapi.na.blackberry.com.
 7. If the **Subscribe with Push Service SDK** check box is selected, in the **Push Initiator URL** field, 
-type https://{server_address}/pushsdk, where {server_address} is the address of the server where the **pushsdk** sample
-web application is deployed. The SDK includes the **pushsdk** sample web application that is deployed on a server, such as the
+type https://{server_address}/high-level-sample, where {server_address} is the address of the server where the **high-level-sample** sample
+Push Initiator is deployed. The SDK includes the high-level sample Push Initiator that is deployed on a server, such as the
 Apache Tomcat server. The URL must be accessible from the Internet.  Of course, you can also point to your own
-running Push Initiator application instead of the provided **pushsdk** sample one.
+running Push Initiator application instead of the provided **high-level-sample** sample one.
 8. Click the **Launch App on New Push** check box if you want to start the sample application if it is not already running
 when a new push message arrives. Leave the check box unchecked if you do not want to start the sample application
 when a new push message arrives. Note that if the check box is left unchecked and the sample application is not running when a new
@@ -140,8 +143,11 @@ had not been checked, then it will jump straight into the register (i.e. create 
 ## More Info
 
 * [BlackBerry 10 SDK for Adobe AIR](https://developer.blackberry.com/air)
+* [How to write a push-enabled application using Adobe AIR] (https://developer.blackberry.com/air/documentation/bb10/overview_air_1976130_11.html)
 * [Push Service SDK Download](https://developer.blackberry.com/services/push)
-* [Push Service SDK Development Guides](http://docs.blackberry.com/en/developers/subcategories/?userType=21&category=Push+Service)
+* [Push Service SDK Development Guide](http://developer.blackberry.com/java/documentation/push_service_sdk.html)
+* [Push Service SDK Low-level API Reference](http://www.blackberry.com/developers/docs/PushServiceSDK1.2/LowLevelAPI)
+* [Push Service SDK High-level API Reference](http://www.blackberry.com/developers/docs/PushServiceSDK1.2/HighLevelAPI)
 * [Push Service Registration Form](https://www.blackberry.com/profile/?eventId=8121)
 
 ## Disclaimer
