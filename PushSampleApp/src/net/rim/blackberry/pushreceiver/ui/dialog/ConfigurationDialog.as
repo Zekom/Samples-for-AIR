@@ -32,6 +32,7 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 	import qnx.fuse.ui.text.Label;
 	import qnx.fuse.ui.text.TextFormat;
 	import qnx.fuse.ui.text.TextInput;
+	import qnx.fuse.ui.text.KeyboardType;
 	
 	/**
 	 * Dialog for setting configuration settings.
@@ -234,9 +235,11 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 			ppgUrlField.prompt = this.ppgUrlLabelStr;
 			ppgUrlField.spellCheck = false;
 			ppgUrlField.autoCorrect = false;
+			ppgUrlField.softKeyboardType = KeyboardType.URL;
 			piUrlField.prompt = this.piUrlLabelStr;
 			piUrlField.spellCheck = false;
 			piUrlField.autoCorrect = false;
+			piUrlField.softKeyboardType = KeyboardType.URL;
 			launchAppOnPushField.label = this.launchAppOnPushLabelStr;
 			
 			errorLabel.maxLines = 0;

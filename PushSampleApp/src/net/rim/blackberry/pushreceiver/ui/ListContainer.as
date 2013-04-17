@@ -16,18 +16,25 @@
 
 package net.rim.blackberry.pushreceiver.ui
 {
+	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	
+	import net.rim.blackberry.pushreceiver.service.PushNotificationService;
+	import net.rim.blackberry.pushreceiver.service.PushNotificationServiceImpl;
 	import net.rim.blackberry.pushreceiver.ui.renderer.PushRenderer;
 	import net.rim.blackberry.pushreceiver.vo.Push;
 	
+	import qnx.events.ShortcutEvent;
 	import qnx.fuse.ui.core.Container;
+	import qnx.fuse.ui.dialog.AlertDialog;
 	import qnx.fuse.ui.events.ListEvent;
 	import qnx.fuse.ui.listClasses.ListSelectionMode;
 	import qnx.fuse.ui.listClasses.ScrollDirection;
 	import qnx.fuse.ui.listClasses.SectionList;
+	import qnx.notification.NotificationManager;
 	import qnx.system.FontSettings;
+	import qnx.system.ShortcutManager;
 	import qnx.ui.data.SectionDataProvider;
 	
 	/**
@@ -70,18 +77,6 @@ package net.rim.blackberry.pushreceiver.ui
 			}
 			
 			return instance;
-		}
-		
-		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
-		{			
-			super.updateDisplayList(unscaledWidth, unscaledHeight);
-			
-			list.width = unscaledWidth;
-			list.height = unscaledHeight;
-			list.columnWidth = unscaledWidth;
-			
-			list.headerHeight = FontSettings.fontSettings.contentSize + DATE_HEADING_PADDING;
-			list.rowHeight = FontSettings.fontSettings.contentSize + PUSH_PADDING;
 		}
 		
 		override public function updateFontSettings():void
@@ -215,6 +210,123 @@ package net.rim.blackberry.pushreceiver.ui
 			sectionDataProvider.removeAll();
 		}
 		
+		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+		{			
+			super.updateDisplayList(unscaledWidth, unscaledHeight);
+			
+			list.width = unscaledWidth;
+			list.height = unscaledHeight;
+			list.columnWidth = unscaledWidth;
+			
+			list.headerHeight = FontSettings.fontSettings.contentSize + DATE_HEADING_PADDING;
+			list.rowHeight = FontSettings.fontSettings.contentSize + PUSH_PADDING;
+		}
+		
+		override protected function onAdded():void
+		{
+			super.onAdded();
+			
+			// Add shortcuts for devices with physical keyboards
+			var manager:ShortcutManager = ShortcutManager.shortcutManager;
+			manager.addEventListener(ShortcutEvent.SCROLL_SCREEN_DOWN, scrollScreenDown);
+			manager.addEventListener(ShortcutEvent.SCROLL_SCREEN_UP, scrollScreenUp);
+			manager.addEventListener(ShortcutEvent.BOTTOM, jumpToBottom);
+			manager.addEventListener(ShortcutEvent.TOP, jumpToTop);
+			manager.addEventListener(ShortcutEvent.NEXT, jumpToNextSection);
+			manager.addEventListener(ShortcutEvent.PREVIOUS, jumpToPreviousSection);
+			manager.addEventListener(ShortcutEvent.DELETE, deleteSelectedItem);
+		}
+		
+		override protected function onRemoved():void
+		{
+			super.onRemoved();
+			
+			// Add shortcuts for devices with physical keyboards
+			var manager:ShortcutManager = ShortcutManager.shortcutManager;
+			manager.removeEventListener(ShortcutEvent.SCROLL_SCREEN_DOWN, scrollScreenDown);
+			manager.removeEventListener(ShortcutEvent.SCROLL_SCREEN_UP, scrollScreenUp);
+			manager.removeEventListener(ShortcutEvent.BOTTOM, jumpToBottom);
+			manager.removeEventListener(ShortcutEvent.TOP, jumpToTop);
+			manager.removeEventListener(ShortcutEvent.NEXT, jumpToNextSection);
+			manager.removeEventListener(ShortcutEvent.PREVIOUS, jumpToPreviousSection);
+			manager.removeEventListener(ShortcutEvent.DELETE, deleteSelectedItem);
+		}
+		
+		protected function scrollScreenDown(event:ShortcutEvent):void
+		{
+			list.scrollPages(1);
+		}
+		
+		protected function scrollScreenUp(event:ShortcutEvent):void
+		{
+			list.scrollPages(-1);
+		}	
+		
+		
+		protected function jumpToPreviousSection(event:ShortcutEvent):void
+		{
+			list.scrollToIndex(list.firstVisibleItem.section - 1);
+		}
+		
+		protected function jumpToNextSection(event:ShortcutEvent):void 
+		{
+			list.scrollToIndex(list.lastVisibleItem.section + 1);
+		}
+		
+		
+		protected function jumpToTop(event:ShortcutEvent):void 
+		{
+			list.scrollToIndex(0);
+		}
+		
+		protected function jumpToBottom(event:ShortcutEvent):void 
+		{
+			var lastSectionIndex:int = sectionDataProvider.length - 1;
+			var lastSectionChildIndex:int = sectionDataProvider.getChildrenLengthAtIndex(lastSectionIndex) - 1;
+			list.scrollToIndexInSection(lastSectionIndex, lastSectionChildIndex);
+		}
+		
+		protected function deleteSelectedItem(event:ShortcutEvent):void {
+			if (list.selectedItem != null  && list.selectedItem is Push) {
+				var push:Push = list.selectedItem as Push;
+
+				// Scroll to the selected push (if it's not in view)
+				var sectionIndex:int = sectionDataProvider.indexOf(push.dateHeading);
+				var pushIndex:int = sectionDataProvider.indexOfChildAt(sectionIndex, push);
+				list.scrollToIndexInSection(sectionIndex, pushIndex);
+				
+				var deleteDialog:AlertDialog = new AlertDialog();
+				deleteDialog.title = "Delete";
+				deleteDialog.message = "Delete Item?";
+				deleteDialog.addButton("Cancel");
+				deleteDialog.addButton("Delete");
+				deleteDialog.addEventListener(Event.SELECT, deleteDialogClicked);
+				deleteDialog.show();
+			} else {
+				var alertDialog:AlertDialog = new AlertDialog();
+				alertDialog.title = "Delete";
+				alertDialog.message = "No push was selected to delete.";
+				alertDialog.addButton("OK");
+				alertDialog.show();
+			}
+		}
+		
+		protected function deleteDialogClicked(event:Event):void
+		{				
+			if (event.target.selectedIndex == 1) {
+				// The "Delete" button was clicked
+				var push:Push = list.selectedItem as Push;
+				
+				// The push has been deleted, so delete the notification
+				NotificationManager.notificationManager.deleteNotification(PushReceiver.NOTIFICATION_PREFIX + push.seqNum);
+				
+				removeItem();
+				
+				var pushNotificationService:PushNotificationService = PushNotificationServiceImpl.getPushNotificationService();
+				pushNotificationService.deletePush(push.seqNum);
+			} 
+		}
+		
 		/**
 		 * The actions to take when an item is clicked in the push list.
 		 * No actions will be taken on a date heading.
@@ -222,7 +334,7 @@ package net.rim.blackberry.pushreceiver.ui
 		 */
 		private function listItemClicked(e:ListEvent):void
 		{
-		    if (e.cell is PushRenderer) {
+			if (e.cell is PushRenderer) {
 				selectedPushItem = e.cell as PushRenderer;
 				
 				// We start a timer so the MouseEvent.CLICK event for the delete 
