@@ -25,6 +25,7 @@ package
 	
 	import net.rim.blackberry.events.PushServiceErrorEvent;
 	import net.rim.blackberry.events.PushServiceEvent;
+	import net.rim.blackberry.events.PushServiceConnectionReadyEvent;
 	import net.rim.blackberry.events.PushTransportReadyEvent;
 	import net.rim.blackberry.push.PushPayload;
 	import net.rim.blackberry.pushreceiver.events.*;
@@ -56,6 +57,7 @@ package
 	import qnx.notification.Notification;
 	import qnx.notification.NotificationManager;
 	import qnx.system.FontSettings;
+	import qnx.system.ShortcutManager;
 
 	/**
 	 * The main class which handles the construction of all the UI components,
@@ -105,6 +107,9 @@ package
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			
+			ShortcutManager.shortcutManager.stage = stage;
+			ShortcutManager.shortcutManager.enableShortcuts = true;
+			
 			noPushesLabel = new Label();
 			imageCache = new ImageCache();
 			listContainer = ListContainer.getListContainer();
@@ -120,6 +125,9 @@ package
 			// Listen for a push transport ready event (and handle it)
 			pushNotificationService.addEventListener(PushTransportReadyEvent.PUSH_TRANSPORT_READY, pushTransportReady);
 			
+			// Listen for a push service connection ready event (and handle it)
+			pushNotificationService.addEventListener(PushServiceConnectionReadyEvent.PUSH_SERVICE_CONNECTION_READY, pushServiceConnectionReady);
+
 			initializeUI();
 			
 			// Initialize the push session if a configuration has already been saved
@@ -157,15 +165,22 @@ package
 			numCreateSessionFailures++;
 			
 			if (numCreateSessionFailures >= MAX_CREATE_SESSION_FAILURES) {				
-				// Typically in your own application you wouldn't want to display this error to your users
-				var msg:String = "Unable to create push session. (Error code: " + e.errorID + ")";
+				
+				var message:String;
+				if (e.errorID == PushServiceErrorEvent.PUSH_SERVICE_CONNECTION_CLOSED) {
+					message = "Unable to establish a connection to the Push Service. " +
+						"You will be notified when the Push Service is available again.";				
+				} else {
+					// Typically in your own application you wouldn't want to display this error to your users				
+					message = "Unable to create push session. Error code: " + e.errorID + ".";
+				}
 				if (e.text) {
-					msg += " Reason: " + e.text; 					
+					message += " Reason: " + e.text; 					
 				}
 				
 				var alertDialog:AlertDialog = new AlertDialog();
 				alertDialog.title = "Push Receiver";
-				alertDialog.message = msg;
+				alertDialog.message = message;
 				alertDialog.addButton("Ok");
 				alertDialog.show();
 			} else {
@@ -417,14 +432,47 @@ package
 			
 			if (e.lastFailedOperation == PushTransportReadyEvent.CREATE_CHANNEL) {
 				message += "registering ";
-			} else {
+			} else if (e.lastFailedOperation == PushTransportReadyEvent.DESTROY_CHANNEL) {
 				message += "unregistering ";
+			} else {
+				message += "your last command ";
 			}
+ 
 			
 			message += "again.";
 			
 			pushTransportReadyDialog.message = message;
 			pushTransportReadyDialog.show();
+		}
+		
+		/**
+		 * Actions to perform after a push service connection ready event has occurred.
+		 * @param e a push service connection ready event
+		 */
+		private function pushServiceConnectionReady(e:PushServiceConnectionReadyEvent):void
+		{
+			var pushServiceConnectionReadyDialog:AlertDialog = new AlertDialog();
+			pushServiceConnectionReadyDialog.title = "Push Receiver";
+			pushServiceConnectionReadyDialog.addButton("Ok");
+			
+			var message:String = "The Push Service connection is now available. Please try ";
+			
+			if ((e.lastFailedOperation == PushServiceConnectionReadyEvent.CREATE_SESSION) || 
+				(e.lastFailedOperation == PushServiceConnectionReadyEvent.REGISTER_TO_LAUNCH) || 
+				(e.lastFailedOperation == PushServiceConnectionReadyEvent.UNREGISTER_FROM_LAUNCH))  {
+				message += "to save your configuration ";
+			} else if (e.lastFailedOperation == PushServiceConnectionReadyEvent.CREATE_CHANNEL) {
+				message += "registering ";
+			} else if (e.lastFailedOperation == PushServiceConnectionReadyEvent.DESTROY_CHANNEL) {
+				message += "unregistering ";
+			} else {
+				message += "your last command ";
+			}
+			
+			message += "again.";
+			
+			pushServiceConnectionReadyDialog.message = message;
+			pushServiceConnectionReadyDialog.show();
 		}
 		
 		/**
