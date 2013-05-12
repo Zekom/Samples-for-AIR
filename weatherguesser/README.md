@@ -21,7 +21,8 @@ You will learn:
 ========================================================================
 Requirements:
 
-BlackBerry 10 SDK for Adobe AIR Beta 4
+BlackBerry 10 SDK for Adobe AIR
+BlackBerry 10 App Framework ( appframework.swc ) Source located here - https://github.com/blackberry/Samples-for-AIR/appframework
 
 ========================================================================
 Running the example:

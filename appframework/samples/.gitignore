@@ -1,0 +1,4 @@
+*.bar
+*.swf
+tmp/
+.DS_Store

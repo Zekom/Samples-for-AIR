@@ -15,11 +15,11 @@
 */
 package qnx.samples.weatherguesser.views
 {
-	import qnx.fuse.ui.progress.ActivityIndicator;
 	import qnx.fuse.ui.core.SizeOptions;
 	import qnx.fuse.ui.layouts.Align;
 	import qnx.fuse.ui.layouts.gridLayout.GridData;
 	import qnx.fuse.ui.listClasses.SectionList;
+	import qnx.fuse.ui.progress.ActivityIndicator;
 	import qnx.samples.weatherguesser.model.Weather;
 	import qnx.samples.weatherguesser.ui.listClasses.WeatherCellRenderer;
 
@@ -54,6 +54,7 @@ package qnx.samples.weatherguesser.views
 		override protected function onAdded():void
 		{
 			super.onAdded();
+			
 			list = new SectionList();
 			list.rowHeight = 201;
 			list.cellRenderer = WeatherCellRenderer;

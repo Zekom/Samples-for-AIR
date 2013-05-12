@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="default">
+     
+     <target name="default" >
+     	<antcall target="build" />
+     	<antcall target="copy" />
+     </target>
+     
+     <target name="build">
+          <fdt.launch.library projectname="appframework" debug="true" target="bin/appframework.swc"/>
+     </target>
+ 	
+ 	<!-- Copies the .swc to the dependent samples. This ensures apps are all up to date. -->
+ 	<target name="copy" >
+ 		<copy file="bin/appframework.swc" todir="../samples/tabbedpane" overwrite="true"/>
+ 		<copy file="bin/appframework.swc" todir="../samples/navigationdrilldown" overwrite="true"/>
+ 		<copy file="bin/appframework.swc" todir="../samples/listwithccm" overwrite="true"/>
+ 		<copy file="bin/appframework.swc" todir="../samples/multiselect" overwrite="true"/>
+ 		<copy file="bin/appframework.swc" todir="../../weatherguesser" overwrite="true"/>
+ 		<copy file="bin/appframework.swc" todir="../../../Community-APIs-for-AIR/BlackBerry10/bbm/app" overwrite="true"/>
+ 		
+ 	</target>
+ 	
+</project>
