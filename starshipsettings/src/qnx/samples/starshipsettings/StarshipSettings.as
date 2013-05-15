@@ -28,7 +28,7 @@ package qnx.samples.starshipsettings
 	[SWF(backgroundColor="#272727", frameRate="60")]
 	public class StarshipSettings extends Sprite
 	{
-		[Embed(source="../assets/styles/styles.css", mimeType="application/octet-stream")]
+		[Embed(source="/../assets/styles/styles.css", mimeType="application/octet-stream")]
 		private var STYLES : Class;
 		private var _mainView : StarshipSettingsView;
 

@@ -24,6 +24,7 @@ package net.rim.blackberry.pushreceiver.service
 	import net.rim.blackberry.events.PushServiceErrorEvent;
 	import net.rim.blackberry.events.PushServiceEvent;
 	import net.rim.blackberry.events.PushTransportReadyEvent;
+	import net.rim.blackberry.events.PushServiceConnectionReadyEvent;
 	import net.rim.blackberry.push.InitializationError;
 	import net.rim.blackberry.push.PushPayload;
 	import net.rim.blackberry.push.PushService;
@@ -290,6 +291,7 @@ package net.rim.blackberry.pushreceiver.service
 			getPushService().addEventListener(PushServiceEvent.REGISTER_TO_LAUNCH_SUCCESS, successEventHandler);
 			getPushService().addEventListener(PushServiceErrorEvent.UNREGISTER_FROM_LAUNCH_ERROR, errorEventHandler);
 			getPushService().addEventListener(PushServiceEvent.UNREGISTER_FROM_LAUNCH_SUCCESS, successEventHandler);
+			getPushService().addEventListener(PushServiceConnectionReadyEvent.PUSH_SERVICE_CONNECTION_READY, pushServiceConnectionReadyHandler);
 		}
 		
 		private function getPushService():PushService
@@ -334,5 +336,13 @@ package net.rim.blackberry.pushreceiver.service
 			
 			dispatchEvent(event);
 		}
+		
+		private function pushServiceConnectionReadyHandler(e:PushServiceConnectionReadyEvent):void
+		{
+			var event:PushServiceConnectionReadyEvent = new PushServiceConnectionReadyEvent(e.type, e.lastFailedOperation);
+			
+			dispatchEvent(event);
+		}
+
 	}
 }

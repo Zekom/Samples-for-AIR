@@ -63,6 +63,10 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 				contentLabel.text = textBytes.readUTFBytes(textBytes.length);	
 				
 				contentContainer.addChild(contentLabel);
+				
+				// Needed to resize, layout the dialog with the added content
+				layoutChanged = true;
+				invalidateProperties();
 			} else if (push.contentType == Push.CONTENT_TYPE_IMAGE) {
 				// Image content
 				var imageBytes:ByteArray = Base64.decode(push.content);
@@ -82,6 +86,10 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 						contentImage.layoutData = contentGrid;
 						
 						contentContainer.addChild(contentImage);
+						
+						// Needed to resize, layout the dialog with the added content
+						layoutChanged = true;
+						invalidateProperties();
 					}
 				);
 				
@@ -94,6 +102,10 @@ package net.rim.blackberry.pushreceiver.ui.dialog
 						contentLabel.text = "Error: Unable to load image from the push. Reason: " + e.text;
 						
 						contentContainer.addChild(contentLabel);
+						
+						// Needed to resize, layout the dialog with the added content
+						layoutChanged = true;
+						invalidateProperties();
 					}
 				);
 				

@@ -23,9 +23,9 @@ package qnx.samples.starshipsettings.ui
 
 	public class WarpImage extends UIComponent
 	{
-		[Embed(source="../assets/images/Warp_Drive.png")]
+		[Embed(source="/../assets/images/Warp_Drive.png")]
 		public var warpDriveOff : Class;
-		[Embed(source="../assets/images/Warp_Drive_Energy.png")]
+		[Embed(source="/../assets/images/Warp_Drive_Energy.png")]
 		public var warpDriveOn : Class;
 		
 		private var _warpOff : Bitmap;

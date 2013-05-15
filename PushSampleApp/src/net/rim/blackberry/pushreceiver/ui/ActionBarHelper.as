@@ -91,7 +91,7 @@ package net.rim.blackberry.pushreceiver.ui
 			
 			return instance;
 		}
-				
+			
 		/**
 		 * Actions to perform when unsubscribing from the Push Initiator was a success.
 		 * @param e a successful unsubscribe from the Push Initiator event
@@ -547,7 +547,7 @@ package net.rim.blackberry.pushreceiver.ui
 			} else if (shouldUnregisterFromLaunch) {
 				pushNotificationService.unregisterFromLaunch();
 			} else {
-				dialogSuccess("Configuration", "Configuration was saved.");						
+				dialogSuccess("Configuration", "Configuration was saved. Please register now.");						
 			}
 		}
 		
@@ -556,11 +556,17 @@ package net.rim.blackberry.pushreceiver.ui
 		 * @param e a create session error event
 		 */
 		private function createSessionError(e:PushServiceErrorEvent):void
-		{			
-			// Typically in your own application you wouldn't want to display this error to your users
-			var message:String = "Configuration was saved, but was unable to create push session. (Error code: " + e.errorID + ")";
+		{									
+			var message:String;
+			if (e.errorID == PushServiceErrorEvent.PUSH_SERVICE_CONNECTION_CLOSED) {
+				message = "Configuration was saved, but was unable to establish a connection to the Push Service. " +
+					"You will be notified when the Push Service is available again.";				
+			} else {
+				// Typically in your own application you wouldn't want to display this error to your users				
+				message = "Configuration was saved, but was unable to create push session. Error code: " + e.errorID + ".";
+			}
 			
-			dialogError("Configuration", message, e.text);
+			dialogError("Configuration", message, e.text);			
 		}
 		
 		/**
@@ -569,7 +575,7 @@ package net.rim.blackberry.pushreceiver.ui
 		 */
 		private function registerToLaunchSuccess(e:PushServiceEvent):void
 		{			
-			dialogSuccess("Configuration", "Configuration was saved.");	
+			dialogSuccess("Configuration", "Configuration was saved. Please register now.");	
 		}
 		
 		/**
@@ -578,8 +584,14 @@ package net.rim.blackberry.pushreceiver.ui
 		 */
 		private function registerToLaunchError(e:PushServiceErrorEvent):void
 		{
-			// Typically in your own application you wouldn't want to display this error to your users
-			var message:String = "Register to launch failed with error code: " + e.errorID + ".";
+			var message:String;
+			if (e.errorID == PushServiceErrorEvent.PUSH_SERVICE_CONNECTION_CLOSED) {
+				message = "Register to launch failed as the connection to the Push Service is unavailable. " +
+					"You will be notified when the Push Service is available again.";				
+			} else {
+				// Typically in your own application you wouldn't want to display this error to your users				
+				message = "Register to launch failed with error code: " + e.errorID + ".";
+			}
 			
 			dialogError("Configuration", message, e.text);
 		}
@@ -590,7 +602,7 @@ package net.rim.blackberry.pushreceiver.ui
 		 */
 		private function unregisterFromLaunchSuccess(e:PushServiceEvent):void
 		{
-			dialogSuccess("Configuration", "Configuration was saved.");	
+			dialogSuccess("Configuration", "Configuration was saved. Please register now.");	
 		}
 		
 		/**
@@ -599,8 +611,14 @@ package net.rim.blackberry.pushreceiver.ui
 		 */
 		private function unregisterFromLaunchError(e:PushServiceErrorEvent):void
 		{
-			// Typically in your own application you wouldn't want to display this error to your users
-			var message:String = "Unregister from launch failed with error code: " + e.errorID + ".";
+			var message:String;
+			if (e.errorID == PushServiceErrorEvent.PUSH_SERVICE_CONNECTION_CLOSED) {
+				message = "Unregister from launch failed as the connection to the Push Service is unavailable. " +
+					"You will be notified when the Push Service is available again.";				
+			} else {
+				// Typically in your own application you wouldn't want to display this error to your users				
+				message = "Unregister from launch failed with error code: " + e.errorID + ".";
+			}
 			
 			dialogError("Configuration", message, e.text);
 		}
@@ -685,6 +703,9 @@ package net.rim.blackberry.pushreceiver.ui
 			} else if (e.errorID == PushServiceErrorEvent.PPG_SERVER_ERROR) {
 				message = "Create channel failed as the PPG is currently returning a server error. " +
 					"You will be notified when the PPG is available again.";				
+			} else if (e.errorID == PushServiceErrorEvent.PUSH_SERVICE_CONNECTION_CLOSED) {
+				message = "Create channel failed as the connection to the Push Service is unavailable. " +
+					"You will be notified when the Push Service is available again.";				
 			} else {
 				// Typically in your own application you wouldn't want to display this error to your users
 				message = "Create channel failed with error code: " + e.errorID + ".";	
@@ -789,7 +810,10 @@ package net.rim.blackberry.pushreceiver.ui
 					"If they are on, you will be notified when the push transport is available again.";
 			} else if (e.errorID == PushServiceErrorEvent.PPG_SERVER_ERROR) {
 				message = "Destroy channel failed as the PPG is currently returning a server error. " +
-					"You will be notified when the PPG is available again.";				
+					"You will be notified when the PPG is available again.";
+			} else if (e.errorID == PushServiceErrorEvent.PUSH_SERVICE_CONNECTION_CLOSED) {
+				message = "Destroy channel failed as the connection to the Push Service is unavailable. " +
+					"You will be notified when the Push Service is available again.";								
 			} else {
 				// Typically in your own application you wouldn't want to display this error to your users
 				message = "Destroy channel failed with error code: " + e.errorID + ".";
