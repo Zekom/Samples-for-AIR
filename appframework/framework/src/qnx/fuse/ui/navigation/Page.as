@@ -258,6 +258,16 @@ package qnx.fuse.ui.navigation
 		private function closeComplete():void
 		{
 			__backButtonDragging = false;
+			
+			if( contentCover )
+			{
+				contentCover.alpha = 0;
+				if( contains(contentCover) )
+				{
+					removeChild(contentCover);
+					contentCover = null;
+				}
+			}
 		}
 
 		private function onBackDragMove( event:DragEvent ):void
@@ -276,6 +286,13 @@ package qnx.fuse.ui.navigation
 				}
 				
 				contentCover.alpha = percent - 0.5;
+			}
+			else
+			{
+				if( contentCover )
+				{
+					contentCover.alpha = 0;
+				}
 			}
 		}
 		

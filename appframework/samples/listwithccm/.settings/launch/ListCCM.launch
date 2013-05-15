@@ -5,6 +5,7 @@
 <intAttribute key="AIR_VIEWER_CONF" value="2"/>
 <stringAttribute key="APP_ARGUMENTS" value=""/>
 <stringAttribute key="ARGUMENTS" value="-static-link-runtime-shared-libraries=true&#10;-target-player={playerVersion}&#10;-library-path+=&quot;{flexSDK}/frameworks/locale/en_US&quot;&#10;-default-size=768,1280"/>
+<stringAttribute key="BLACKBERRY_DEBUG_TARGET_ID" value="c1a41032-3b6e-4885-ab40-43eb7368f43e"/>
 <stringAttribute key="COMPILER_TECHNOLOGY" value="Flex SDK"/>
 <booleanAttribute key="CUSTOMIZE_ADL_ARGS" value="false"/>
 <stringAttribute key="CUSTOM_ADL_CMD_LINE" value="${nodebug} ${profile} ${screensize} ${anesdir} ${desc} ${rootdir}"/>
@@ -12,7 +13,7 @@
 <booleanAttribute key="DISABLE_COMPILE_PROCESS" value="false"/>
 <booleanAttribute key="INSTALL_APPLICATION" value="true"/>
 <stringAttribute key="LAUNCHER_DEPENDENCIES" value="[Self]"/>
-<intAttribute key="LAUNCH_METHOD" value="0"/>
+<intAttribute key="LAUNCH_METHOD" value="1"/>
 <stringAttribute key="MAIN_CLASS" value="src/qnx/samples/listccm/ListCCM.as"/>
 <stringAttribute key="MOBILE_PRESET" value="BlackBerry 10 All Touch"/>
 <intAttribute key="PACKAGE_METHOD" value="0"/>
