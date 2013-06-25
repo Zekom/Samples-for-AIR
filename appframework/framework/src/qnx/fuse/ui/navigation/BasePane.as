@@ -108,6 +108,17 @@ package qnx.fuse.ui.navigation
 			addEventListener(NavigationEvent.TRANSITION_OUT_COMPLETE, transitionOutComplete );
 		}
 		
+		/**
+		 * @private
+		 */
+		protected function removeBackground():void
+		{
+			if( __background && contains( __background ) )
+			{
+				removeChild( __background );
+			}
+		}
+		
 		/** @private **/
 		protected function createContentCover():void
 		{
@@ -222,7 +233,6 @@ package qnx.fuse.ui.navigation
 				__background.height = unscaledHeight;
 			}
 			
-			
 			if( actionBar )
 			{
 				actionBar.width = unscaledWidth;
@@ -243,9 +253,10 @@ package qnx.fuse.ui.navigation
 			if( contentCover )
 			{
 				contentCover.width = width;
-				contentCover.height = ( actionBar ) ? actionBar.y : height;
+				contentCover.height = getContentHeight();
 			}
 		}
+		
 		
 		/**
 		 * Pops the top most pane if the parent is a <code>NavigationPane</code>.

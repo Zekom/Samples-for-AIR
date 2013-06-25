@@ -18,17 +18,17 @@
 		<link>
 			<name>QNXDevice.ane</name>
 			<type>1</type>
-			<location>/Users/jdolce/Desktop/test/blackberry-tablet-sdk-3.1.0/frameworks/libs/qnx/ane/QNXDevice.ane</location>
+			<locationURI>QNXDevice</locationURI>
 		</link>
 		<link>
 			<name>QNXSkins.ane</name>
 			<type>1</type>
-			<location>/Users/jdolce/Desktop/test/blackberry-tablet-sdk-3.1.0/frameworks/libs/qnx/ane/QNXSkins.ane</location>
+			<locationURI>QNXSkins</locationURI>
 		</link>
 		<link>
 			<name>qnxui.swc</name>
 			<type>1</type>
-			<location>/Users/jdolce/Desktop/test/blackberry-tablet-sdk-3.1.0/frameworks/libs/qnx/qnxui.swc</location>
+			<locationURI>qnxui</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

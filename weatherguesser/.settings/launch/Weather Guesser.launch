@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="com.powerflasher.fdt.ui.MobileApplicationGroup">
 <stringAttribute key="ADL_DESCRIPTOR_FILE" value="bin/weatherguesser-app.xml"/>
-<stringAttribute key="ADL_SCREENSIZE" value="600x1024:600x1024"/>
+<stringAttribute key="ADL_SCREENSIZE" value="720x720:720x720"/>
 <intAttribute key="AIR_VIEWER_CONF" value="1"/>
+<stringAttribute key="APP_ARGUMENTS" value=""/>
 <stringAttribute key="ARGUMENTS" value="-static-link-runtime-shared-libraries=true&#10;-target-player={playerVersion}&#10;-library-path+=&quot;{flexSDK}/frameworks/locale/en_US&quot;&#10;-default-size=768,1280"/>
 <stringAttribute key="BLACKBERRY_DEBUG_TARGET_ID" value="c1a41032-3b6e-4885-ab40-43eb7368f43e"/>
 <booleanAttribute key="CLEAR_DATA" value="false"/>
+<stringAttribute key="COMPILER_TECHNOLOGY" value="Flex SDK"/>
 <booleanAttribute key="CUSTOMIZE_ADL_ARGS" value="false"/>
 <stringAttribute key="CUSTOM_ADL_CMD_LINE" value="${nodebug} ${profile} ${screensize} ${anesdir} ${desc} ${rootdir}"/>
 <intAttribute key="DEBUG_VIA" value="0"/>
 <booleanAttribute key="DISABLE_COMPILE_PROCESS" value="false"/>
 <booleanAttribute key="INSTALL_APPLICATION" value="true"/>
-<stringAttribute key="LAUNCHER_DEPENDENCIES" value="[Self]"/>
-<intAttribute key="LAUNCH_METHOD" value="1"/>
+<stringAttribute key="LAUNCHER_DEPENDENCIES" value="appframework build.xml&#10;[Self]"/>
+<intAttribute key="LAUNCH_METHOD" value="0"/>
 <stringAttribute key="MAIN_CLASS" value="src/qnx/samples/weatherguesser/WeatherGuesser.as"/>
-<stringAttribute key="MOBILE_PRESET" value="Blackberry Playbook"/>
+<stringAttribute key="MOBILE_PRESET" value="Blackberry Q10"/>
 <intAttribute key="PACKAGE_METHOD" value="0"/>
 <booleanAttribute key="PASS_CP" value="true"/>
 <booleanAttribute key="PASS_EXTERNS" value="false"/>

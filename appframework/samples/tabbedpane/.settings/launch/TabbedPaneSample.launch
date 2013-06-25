@@ -13,7 +13,7 @@
 <booleanAttribute key="DISABLE_COMPILE_PROCESS" value="false"/>
 <booleanAttribute key="INSTALL_APPLICATION" value="true"/>
 <stringAttribute key="LAUNCHER_DEPENDENCIES" value="appframework build.xml&#10;[Self]"/>
-<intAttribute key="LAUNCH_METHOD" value="0"/>
+<intAttribute key="LAUNCH_METHOD" value="1"/>
 <stringAttribute key="MAIN_CLASS" value="src/qnx/samples/tabbedpane/TabbedPaneSample.as"/>
 <stringAttribute key="MOBILE_PRESET" value="BlackBerry Z10"/>
 <intAttribute key="PACKAGE_METHOD" value="0"/>

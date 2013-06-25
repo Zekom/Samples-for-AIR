@@ -23,12 +23,12 @@
 		<link>
 			<name>QNXSkins.ane</name>
 			<type>1</type>
-			<location>/Developer/SDKs/blackberry-tablet-sdk-3.0.0/frameworks/libs/qnx/ane/QNXSkins.ane</location>
+			<location>/Developer/SDKs/blackberry-tablet-sdk-3.2.0/frameworks/libs/qnx/ane/QNXSkins.ane</location>
 		</link>
 		<link>
 			<name>qnxui.swc</name>
 			<type>1</type>
-			<location>/Developer/SDKs/blackberry-tablet-sdk-3.0.0/frameworks/libs/qnx/qnxui.swc</location>
+			<location>/Developer/SDKs/blackberry-tablet-sdk-3.2.0/frameworks/libs/qnx/qnxui.swc</location>
 		</link>
 	</linkedResources>
 </projectDescription>
