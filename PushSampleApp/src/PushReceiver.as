@@ -23,9 +23,9 @@ package
 	import flash.events.Event;
 	import flash.utils.ByteArray;
 	
+	import net.rim.blackberry.events.PushServiceConnectionReadyEvent;
 	import net.rim.blackberry.events.PushServiceErrorEvent;
 	import net.rim.blackberry.events.PushServiceEvent;
-	import net.rim.blackberry.events.PushServiceConnectionReadyEvent;
 	import net.rim.blackberry.events.PushTransportReadyEvent;
 	import net.rim.blackberry.push.PushPayload;
 	import net.rim.blackberry.pushreceiver.events.*;
@@ -36,7 +36,10 @@ package
 	import net.rim.blackberry.pushreceiver.vo.*;
 	
 	import qnx.crypto.Base64;
+	import qnx.display.IowWindow;
+	import qnx.display.IowWindowState;
 	import qnx.events.InvokeEvent;
+	import qnx.events.IowWindowEvent;
 	import qnx.fuse.ui.actionbar.ActionBar;
 	import qnx.fuse.ui.actionbar.ActionPlacement;
 	import qnx.fuse.ui.core.Action;
@@ -58,7 +61,7 @@ package
 	import qnx.notification.NotificationManager;
 	import qnx.system.FontSettings;
 	import qnx.system.ShortcutManager;
-
+	
 	/**
 	 * The main class which handles the construction of all the UI components,
 	 * and provides functions for handling an incoming push and a SIM card change.
@@ -95,6 +98,8 @@ package
 		// Whether or not the application has at some point in time been running in the foreground
 		private static var hasBeenInForeground:Boolean = false;
 		
+		private static var win:IowWindow = IowWindow.getAirWindow();
+		
 		public function PushReceiver()
 		{		
 			// Add an event listener to handle incoming invokes
@@ -102,7 +107,7 @@ package
 			
 			super();
 			
-			NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, handleActivate);
+			win.addEventListener(IowWindowEvent.WINDOW_STATE_CHANGED, stateChanged);
 			
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
@@ -134,9 +139,11 @@ package
 			initializePushSession();
 		}
 		
-		private function handleActivate(e:Event):void
+		private function stateChanged(e:IowWindowEvent):void
 		{
-			hasBeenInForeground = true;
+			if (win.state == IowWindowState.NORMAL) {
+				hasBeenInForeground = true;	
+			}
 		}
 		
 		/**
@@ -504,6 +511,7 @@ package
 
 				// Exit the application if it has not been brought to the foreground
 				if (!hasBeenInForeground) {
+					pushNotificationService.dispose();
 					NativeApplication.nativeApplication.exit();
 				}
 				
@@ -558,7 +566,7 @@ package
 			notification.invokeData = openInvokeData;
 			
 			NotificationManager.notificationManager.notifyNotification(notification);
-			
+
 			// If the "Launch Application on New Push" checkbox was checked in the config settings, then 
 			// a new push will launch the app so that it's running in the background (if the app was not 
 			// already running when the push came in)
@@ -567,6 +575,7 @@ package
 			// But, if the user has brought the app to the foreground at some point, then they know about the
 			// app running and so we leave the app running after we're done processing the push
 			if (!hasBeenInForeground) {
+				pushNotificationService.dispose();
 		        NativeApplication.nativeApplication.exit();
 			}
 		}
