@@ -183,6 +183,7 @@
   <!-- End of the schema for adding the android specific tags in AndroidManifest.xml file -->
   <supportedProfiles>desktop extendedDesktop mobileDevice extendedMobileDevice</supportedProfiles>
   <extensions>
+    <extensionID>qnx.system.QNXDevice</extensionID>
     <extensionID>qnx.fuse.ui.skins.QNXSkins</extensionID>
   </extensions>
 </application>

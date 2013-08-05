@@ -16,6 +16,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>QNXDevice.ane</name>
+			<type>1</type>
+			<locationURI>QNXDevice</locationURI>
+		</link>
+		<link>
 			<name>QNXSkins.ane</name>
 			<type>1</type>
 			<location>/Developer/SDKs/blackberry-tablet-sdk-3.2.0/frameworks/libs/qnx/ane/QNXSkins.ane</location>
